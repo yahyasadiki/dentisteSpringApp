@@ -16,10 +16,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Dentiste implements java.io.Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_dentiste;
+public class Dentiste extends Personne {
 
     @Column(nullable = false)
     private LocalDate DateRetourDeConge;
