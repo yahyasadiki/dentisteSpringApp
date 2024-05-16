@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+
+<h1>User Profile</h1>
+
+<div th:if="${utilisateur != null}">
+    <p>Username: <span th:text="${utilisateur.getNomUtilisateur()}"></span></p>
+
+</div>
+
+</body>
+</html>

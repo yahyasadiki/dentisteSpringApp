@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.dentiste.app.entites.enums.Role;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class Utilisateur implements Serializable {
     @Column(nullable = false)
     private String motDePasse;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private ArrayList<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role roles;
 
 }
 

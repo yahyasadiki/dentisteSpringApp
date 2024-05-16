@@ -10,13 +10,11 @@ import java.util.List;
 @Service
 public class UtilisateurService {
 
-    private  UtilisateurRepository utilisateurRepository;
+    private static UtilisateurRepository utilisateurRepository;
 
-    @Autowired
     public UtilisateurService(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
     }
-
 
     public Utilisateur createUtilisateur(Utilisateur utilisateur) {
         return utilisateurRepository.save(utilisateur);
@@ -33,4 +31,9 @@ public class UtilisateurService {
     public void deleteUtilisateurById(Long id) {
         utilisateurRepository.deleteById(id);
     }
+
+    public static Utilisateur findByNomUtilisateurAndMotDePasse(String nomUtilisateur, String motDePasse) {
+        return utilisateurRepository.findByNomUtilisateurAndMotDePasse(nomUtilisateur, motDePasse);
+    }
+
 }
