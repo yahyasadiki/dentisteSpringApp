@@ -17,13 +17,11 @@ import ma.dentiste.app.entites.enums.StatusEmploye;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Secretaire extends Personne{
+public class Secretaire extends Utilisateur{
     private Double salaireDeBase;
     private LocalDate dateRetourConge;
     private Assurance assurance;
     private Double prime;
     @Enumerated(EnumType.STRING)
     private StatusEmploye statusActuel;
-
-
 }

@@ -10,22 +10,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Utilisateur implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+public class Utilisateur extends Personne {
     private String nomUtilisateur;
-
-    @Column(nullable = false)
     private String motDePasse;
-
     @Enumerated(EnumType.STRING)
     private Role roles;
-
 }
 

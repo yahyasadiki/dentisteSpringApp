@@ -1,54 +1,79 @@
 package ma.dentiste.app.Controller;
 
-import ma.dentiste.app.Service.UtilisateurService;
+import ma.dentiste.app.Service.DentisteService;
+import ma.dentiste.app.entites.Dentiste;
 import ma.dentiste.app.entites.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@SessionAttributes("dentiste") // This annotation is used to store 'dentiste' in session
 public class controller {
+
+    @Autowired
+    private DentisteService dentisteService;
+
     @GetMapping("/index")
-    public String hello(){
+    public String hello() {
         return "index";
     }
 
     @GetMapping("/error")
-    public String error(Model model){
+    public String error(Model model) {
         return "error";
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "Login";
     }
 
     @PostMapping("/login")
-    public String loginPost(String nomUtilisateur, String motDePasse, Model model){
-        Utilisateur utilisateur = UtilisateurService.findByNomUtilisateurAndMotDePasse(nomUtilisateur, motDePasse);
+    public String loginPost(@RequestParam String nomUtilisateur, @RequestParam String motDePasse, Model model) {
+        Dentiste dentiste = dentisteService.findByNomUtilisateurAndMotDePasse(nomUtilisateur, motDePasse);
 
-        if(utilisateur != null){
-            model.addAttribute("utilisateur", utilisateur);
-            return "profile";
+        if (dentiste != null) {
+            model.addAttribute("dentiste", dentiste); // Add dentiste to the model
+            return "redirect:/profile"; // Redirect to profile page
+        } else {
+            model.addAttribute("errorMessage", "Nom d'utilisateur ou mot de passe incorrect!");
+            return "error";
         }
-        else {
-            model.addAttribute("errorMessage", "Nom d'utilisateur ou mot de passe incorrecte!");
-            return "error";        }
-
     }
 
     @GetMapping("/profile")
-    public String profile(Model model){
-        Utilisateur utilisateur = (Utilisateur) model.getAttribute("utilisateur");
-
-        if(utilisateur != null){
-            model.addAttribute("utilisateur", utilisateur);
+    public String profile(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
+        if (dentiste != null) {
             return "profile";
-        }
-        else {
+        } else {
             model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
             return "error";
         }
     }
+
+    @GetMapping("/editProfile")
+    public String editProfile(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
+        if (dentiste != null) {
+            model.addAttribute("dentiste", dentiste);
+            return "editProfile";
+        } else {
+            model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
+            return "error";
+        }
+    }
+
+    @PostMapping("/editProfile")
+    public String editProfilePost(@ModelAttribute Dentiste dentiste, Model model) {
+        Dentiste updatedDentiste = dentisteService.updateDentiste(dentiste);
+        if (updatedDentiste != null) {
+            model.addAttribute("dentiste", updatedDentiste);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to update profile!");
+            return "error";
+        }
+    }
+
 }

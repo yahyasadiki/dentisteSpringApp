@@ -8,8 +8,32 @@
 
 <h1>User Profile</h1>
 
-<div th:if="${utilisateur != null}">
-    <p>Username: <span th:text="${utilisateur.getNomUtilisateur()}"></span></p>
+<div class="userDetails" th:if="${dentiste != null}">
+    <p>Username: <span th:text="${dentiste.getNomUtilisateur()}"></span></p>
+
+    <table class="userDetailsTable">
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Specialite</th>
+            <th>Adresse</th>
+            <th>Telephone</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td th:text="${dentiste.getId_personne()}"></td>
+            <td th:text="${dentiste.getNom()}"></td>
+            <td th:text="${dentiste.getPrenom()}"></td>
+            <td th:text="${dentiste.getSpecialite()}"></td>
+            <td th:text="${dentiste.getAdresse()}"></td>
+            <td th:text="${dentiste.getTelephone()}"></td>
+            <td th:text="${dentiste.getEmail()}"></td>
+        </tr>
+
+    </table>
+
+    <a href="/editProfile">Edit Profile</a>
 
 </div>
 

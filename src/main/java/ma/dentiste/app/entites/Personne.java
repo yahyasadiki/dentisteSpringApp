@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Personne implements java.io.Serializable {
     @Id
@@ -17,13 +17,12 @@ public class Personne implements java.io.Serializable {
     private String nom;
     @Column(nullable = false)
     private String prenom;
-    @Column(nullable = false)
     private String adresse;
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(unique = true, length = 10)
     private String telephone;
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
-    @Column(nullable = false, unique = true, length = 8)
+    @Column(unique = true, length = 8)
     private String cin;
 
 }
