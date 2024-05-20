@@ -17,6 +17,7 @@ public class controller {
     @Autowired
     private DentisteService dentisteService;
     private SecretaireService secretaireService;
+    private ActeService acteService;
 
     @GetMapping("/index")
     public String hello() {
