@@ -15,7 +15,7 @@ public class DentisteService {
         this.dentisteRepository = dentisteRepository;
     }
 
-    public Utilisateur createDentiste(Dentiste dentiste) {
+    public Dentiste createDentiste(Dentiste dentiste) {
         return dentisteRepository.save(dentiste);
     }
 
@@ -42,4 +42,5 @@ public class DentisteService {
             return null;
         }
     }
+
 }

@@ -1,6 +1,8 @@
 package ma.dentiste.app.Controller;
 
+import ma.dentiste.app.Service.ActeService;
 import ma.dentiste.app.Service.DentisteService;
+import ma.dentiste.app.Service.SecretaireService;
 import ma.dentiste.app.entites.Dentiste;
 import ma.dentiste.app.entites.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ public class controller {
 
     @Autowired
     private DentisteService dentisteService;
+    private SecretaireService secretaireService;
 
     @GetMapping("/index")
     public String hello() {
@@ -36,7 +39,7 @@ public class controller {
 
         if (dentiste != null) {
             model.addAttribute("dentiste", dentiste); // Add dentiste to the model
-            return "redirect:/profile"; // Redirect to profile page
+            return "profile";
         } else {
             model.addAttribute("errorMessage", "Nom d'utilisateur ou mot de passe incorrect!");
             return "error";
@@ -75,5 +78,23 @@ public class controller {
             return "error";
         }
     }
+
+    @GetMapping("/logout")
+    public String logout(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
+        if (dentiste != null) {
+            model.addAttribute("dentiste", null);
+            return "Login";
+        } else {
+            model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
+            return "error";
+        }
+    }
+
+    @GetMapping("/CRUDdentiste")
+    public String CRUDdentiste(Model model) {
+        model.addAttribute("actes", acteService.getAllActe());
+        return "CRUDdentiste";
+    }
+
 
 }
