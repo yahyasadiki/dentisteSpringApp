@@ -1,14 +1,17 @@
 package ma.dentiste.app.Controller;
 
-import ma.dentiste.app.Service.ActeService;
-import ma.dentiste.app.Service.DentisteService;
-import ma.dentiste.app.Service.SecretaireService;
-import ma.dentiste.app.entites.Dentiste;
-import ma.dentiste.app.entites.Utilisateur;
+import ma.dentiste.app.Service.*;
+import ma.dentiste.app.entites.enums.*;
+import ma.dentiste.app.entites.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.service.annotation.GetExchange;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @SessionAttributes("dentiste") // This annotation is used to store 'dentiste' in session
@@ -18,6 +21,10 @@ public class controller {
     private DentisteService dentisteService;
     private SecretaireService secretaireService;
     private ActeService acteService;
+    @Autowired
+    private PatientService patientService;
+    @Autowired
+    private DossierMedicalService dossierMedicalService;
 
     @GetMapping("/index")
     public String hello() {
@@ -47,9 +54,36 @@ public class controller {
         }
     }
 
+    @GetMapping("/register")
+    public String register(Model model) {
+        Dentiste dentiste = new Dentiste();
+        model.addAttribute("dentiste", dentiste);
+        List<Specialite> specialites = Arrays.asList(Specialite.values());
+        List<StatusEmploye> statusEmployes = Arrays.asList(StatusEmploye.values());
+
+        model.addAttribute("specialites", specialites);
+        model.addAttribute("statusEmployes", statusEmployes);
+        return "register";
+    }
+
+
+    @PostMapping("/register")
+    public String registerPost(@ModelAttribute Dentiste dentiste, Model model) {
+        Dentiste newDentiste = dentisteService.createDentiste(dentiste);
+        if (newDentiste != null) {
+            model.addAttribute("dentiste", newDentiste);
+            System.out.println(newDentiste.toString());
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to register!");
+            return "error";
+        }
+    }
+
     @GetMapping("/profile")
     public String profile(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
         if (dentiste != null) {
+            model.addAttribute("dentiste", dentiste);
             return "profile";
         } else {
             model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
@@ -61,6 +95,11 @@ public class controller {
     public String editProfile(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
         if (dentiste != null) {
             model.addAttribute("dentiste", dentiste);
+            List<Specialite> specialites = Arrays.asList(Specialite.values());
+            List<StatusEmploye> statusEmployes = Arrays.asList(StatusEmploye.values());
+
+            model.addAttribute("specialites", specialites);
+            model.addAttribute("statusEmployes", statusEmployes);
             return "editProfile";
         } else {
             model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
@@ -97,5 +136,67 @@ public class controller {
         return "CRUDdentiste";
     }
 
+
+    @GetMapping("/addDossierMedical")
+    public String addDossierMedical(Model model) {
+        model.addAttribute("dossierMedical", new DossierMedicale());
+        ArrayList<StatusPaiment> statusPaiments = new ArrayList<>(Arrays.asList(StatusPaiment.values()));
+        model.addAttribute("statusPaiments", statusPaiments);
+        ArrayList<Dentiste> dentistes = new ArrayList<>(dentisteService.getAllDentistes());
+        model.addAttribute("dentistes", dentistes);
+        return "addDossierMedical";
+    }
+
+    @PostMapping("/addDossierMedical")
+    public String addDossierMedicalPost(@ModelAttribute DossierMedicale dossierMedical, Model model,
+                                        @RequestParam String statusPaiment,
+                                        @RequestParam String dentiste) {
+        dossierMedical.setStatusPaiment(StatusPaiment.valueOf(statusPaiment));
+        dossierMedical.setDentiste(dentisteService.getDentisteById(Long.parseLong(dentiste)));
+
+        DossierMedicale newDossierMedical = dossierMedicalService.createDossierMedical(dossierMedical);
+
+        if (newDossierMedical != null) {
+            model.addAttribute("dossierMedical", newDossierMedical);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add DossierMedical!");
+            return "error";
+        }
+    }
+
+
+    @GetMapping("/addPatient")
+    public String addPatient(Model model) {
+        ArrayList<Mutuelle> mutuelles = new ArrayList<>(Arrays.asList(Mutuelle.values()));
+        ArrayList<GroupeSanguin> genres = new ArrayList<>(Arrays.asList(GroupeSanguin.values()));
+        ArrayList<DossierMedicale> dossierMedicales = new ArrayList<>(dossierMedicalService.getAllDossierMedicals());
+        model.addAttribute("mutuelles", mutuelles);
+        model.addAttribute("genres", genres);
+        model.addAttribute("dossierMedicales", dossierMedicales);
+        model.addAttribute("patient", new Patient());
+        return "addPatient";
+    }
+
+    @PostMapping("/addPatient")
+    public String addPatientPost(@ModelAttribute Patient patient, Model model,
+                                 @ModelAttribute("dentiste") Dentiste dentiste,
+                                 @RequestParam String mutuelle,
+                                 @RequestParam String groupeSanguin,
+                                 @RequestParam String dossierMedicale) {
+        patient.setMutuelle(Mutuelle.valueOf(mutuelle));
+        patient.setGroupeSanguin(GroupeSanguin.valueOf(groupeSanguin));
+        patient.setDossierMedicale(dossierMedicalService.getDossierMedicalById(Long.parseLong(dossierMedicale)));
+
+        Patient newPatient = patientService.createPatient(patient);
+
+        if (newPatient != null) {
+            model.addAttribute("patient", newPatient);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add Patient!");
+            return "error";
+        }
+    }
 
 }

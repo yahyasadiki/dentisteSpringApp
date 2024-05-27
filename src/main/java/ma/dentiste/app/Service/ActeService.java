@@ -4,6 +4,8 @@ import ma.dentiste.app.Respository.ActeRepository;
 import ma.dentiste.app.entites.Acte;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class ActeService {
     private static ActeRepository acteRepository;
@@ -12,8 +14,8 @@ public class ActeService {
         this.acteRepository = acteRepository;
     }
 
-    public void createActe(Acte acte) {
-        acteRepository.save(acte);
+    public static Acte createActe(Acte acte) {
+        return acteRepository.save(acte);
     }
 
     public static Acte getActeById(Long id) {
@@ -28,8 +30,7 @@ public class ActeService {
         acteRepository.deleteById(id);
     }
 
-    public Iterable<Acte> getAllActe() {
-        return acteRepository.findAll();
-    }
+    public static ArrayList<Acte> getAllActe() {
+        return (ArrayList<Acte>) acteRepository.findAll();}
 
 }

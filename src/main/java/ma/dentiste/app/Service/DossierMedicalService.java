@@ -1,6 +1,8 @@
 package ma.dentiste.app.Service;
 
 import ma.dentiste.app.Respository.DossierMedicaleRepository;
+import ma.dentiste.app.entites.Dentiste;
+import ma.dentiste.app.entites.Patient;
 import org.springframework.stereotype.Service;
 import ma.dentiste.app.entites.DossierMedicale;
 
@@ -14,8 +16,18 @@ public class DossierMedicalService {
         this.dossierMedicaleRepository = dossierMedicaleRepository;
     }
 
-    public static void createDossierMedical(DossierMedicale dossierMedicale) {
-        dossierMedicaleRepository.save(dossierMedicale);
+    public static DossierMedicale createDossierMedical(DossierMedicale dossierMedicale) {
+        return dossierMedicaleRepository.save(dossierMedicale);
+    }
+
+    public static DossierMedicale setDentiste(DossierMedicale dossierMedicale, Dentiste dentiste) {
+        dossierMedicale.setDentiste(dentiste);
+        return dossierMedicaleRepository.save(dossierMedicale);
+    }
+
+    public static DossierMedicale setPatient(DossierMedicale dossierMedicale, Patient patient) {
+        dossierMedicale.setPatient(patient);
+        return dossierMedicaleRepository.save(dossierMedicale);
     }
 
     public static void updateDossierMedical(DossierMedicale dossierMedicale) {

@@ -36,6 +36,11 @@ public class PatientService {
         return PatientRepository.findAll();
     }
 
+    public static Patient setDossierMedicale(Patient patient, DossierMedicale dossierMedicale){
+        patient.setDossierMedicale(dossierMedicale);
+        return PatientRepository.save(patient);
+    }
+
 
 
 

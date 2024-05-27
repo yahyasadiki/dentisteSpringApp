@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Patient</title>
+</head>
+<body>
+
+<h1>Add Patient</h1>
+
+<form action="/addPatient" method="post">
+
+    <label for="nom">First Name:</label><br>
+    <input type="text" id="nom" name="nom" th:value="${patient.nom}"><br>
+
+    <label for="prenom">Last Name:</label><br>
+    <input type="text" id="prenom" name="prenom" th:value="${patient.prenom}"><br>
+
+    <label for="dateNaissance">Date of Birth:</label><br>
+    <input type="date" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}"><br>
+
+    <label for="adresse">Address:</label><br>
+    <input type="text" id="adresse" name="adresse" th:value="${patient.adresse}"><br>
+
+    <label for="telephone">Telephone:</label><br>
+    <input type="tel" id="telephone" name="telephone" th:value="${patient.telephone}"><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" th:value="${patient.email}"><br>
+
+    <label for="mutuelle">Mutuelle:</label><br>
+    <select id="mutuelle" name="mutuelle">
+        <option th:each="mutuelle : ${mutuelles}" th:value="${mutuelle}" th:text="${mutuelle}"></option>
+    </select><br>
+
+    <label for="groupeSanguin">Blood Group:</label><br>
+    <select id="groupeSanguin" name="groupeSanguin">
+        <option th:each="groupeSanguin : ${genres}" th:value="${groupeSanguin}" th:text="${groupeSanguin}"></option>
+    </select><br>
+
+    <label for="dossierMedicales">Dossier Medicale:</label><br>
+    <select id="dossierMedicales" name="dossierMedicales">
+        <option th:each="dossierMedicale : ${dossierMedicales}" th:value="${dossierMedicale.numeroDossier}" th:text="${dossierMedicale.numeroDossier}"></option>
+    </select><br>
+
+    <input type="submit" value="Submit">
+
+</form>
+
+</body>
+</html>
