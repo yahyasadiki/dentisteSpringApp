@@ -168,29 +168,26 @@ public class controller {
 
     @GetMapping("/addPatient")
     public String addPatient(Model model) {
-        ArrayList<Mutuelle> mutuelles = new ArrayList<>(Arrays.asList(Mutuelle.values()));
-        ArrayList<GroupeSanguin> genres = new ArrayList<>(Arrays.asList(GroupeSanguin.values()));
-        ArrayList<DossierMedicale> dossierMedicales = new ArrayList<>(dossierMedicalService.getAllDossierMedicals());
-        model.addAttribute("mutuelles", mutuelles);
-        model.addAttribute("genres", genres);
-        model.addAttribute("dossierMedicales", dossierMedicales);
         model.addAttribute("patient", new Patient());
+        List<Mutuelle> mutuelles = Arrays.asList(Mutuelle.values());
+        model.addAttribute("mutuelles", mutuelles);
+        List<GroupeSanguin> groupesSanguins = Arrays.asList(GroupeSanguin.values());
+        model.addAttribute("groupesSanguins", groupesSanguins);
+        model.addAttribute("dossierMedicales", dossierMedicalService.getDossierMedicalWithouPatient());
         return "addPatient";
     }
 
     @PostMapping("/addPatient")
     public String addPatientPost(@ModelAttribute Patient patient, Model model,
-                                 @ModelAttribute("dentiste") Dentiste dentiste,
-                                 @RequestParam String mutuelle,
-                                 @RequestParam String groupeSanguin,
-                                 @RequestParam String dossierMedicale) {
-        patient.setMutuelle(Mutuelle.valueOf(mutuelle));
-        patient.setGroupeSanguin(GroupeSanguin.valueOf(groupeSanguin));
-        patient.setDossierMedicale(dossierMedicalService.getDossierMedicalById(Long.parseLong(dossierMedicale)));
-
+                                 @RequestParam Long dossierMedicaleId) {
         Patient newPatient = patientService.createPatient(patient);
+        patient.setDossierMedicale(dossierMedicalService.getDossierMedicalById(dossierMedicaleId));
 
         if (newPatient != null) {
+            DossierMedicale dossierMedicale = dossierMedicalService.getDossierMedicalById(dossierMedicaleId);
+            dossierMedicalService.setPatient(dossierMedicale, newPatient);
+            if (dossierMedicale != null) {
+            }
             model.addAttribute("patient", newPatient);
             return "profile";
         } else {
@@ -198,5 +195,5 @@ public class controller {
             return "error";
         }
     }
-
 }
+

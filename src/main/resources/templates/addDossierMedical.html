@@ -17,7 +17,7 @@
 
     <label for="dentiste">Dentiste</label>
     <select id="dentiste" name="dentiste">
-        <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id_personne}" th:text="${dentiste.nom}"></option>
+        <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id_personne}" th:text="${dentiste.toString()}"></option>
     </select><br>
     <input type="submit" value="Submit">
 </form>

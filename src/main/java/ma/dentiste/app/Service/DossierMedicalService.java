@@ -6,6 +6,7 @@ import ma.dentiste.app.entites.Patient;
 import org.springframework.stereotype.Service;
 import ma.dentiste.app.entites.DossierMedicale;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,7 +43,19 @@ public class DossierMedicalService {
         return dossierMedicaleRepository.findById(id).get();
     }
 
-    public static List<DossierMedicale> getAllDossierMedicals() {
-        return dossierMedicaleRepository.findAll();
+    public static List<DossierMedicale> getAllDossierMedical() {
+        List<DossierMedicale> dossierMedicales = new ArrayList<>();
+        dossierMedicaleRepository.findAll().forEach(dossierMedicales::add);
+        return dossierMedicales;
+    }
+
+    public static List<DossierMedicale> getDossierMedicalWithouPatient() {
+        List<DossierMedicale> dossierMedicales = new ArrayList<>();
+        dossierMedicaleRepository.findAll().forEach(dossierMedicale -> {
+            if (dossierMedicale.getPatient() == null) {
+                dossierMedicales.add(dossierMedicale);
+            }
+        });
+        return dossierMedicales;
     }
 }
