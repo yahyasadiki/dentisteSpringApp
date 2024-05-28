@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Intervention Medical</title>
+</head>
+<body>
+<h1>Add Intervention Medical</h1>
+
+<form action="/addIntervention" method="post">
+    <label for="noteMedecin">Note Medecin:</label>
+    <input type="text" id="noteMedecin" name="noteMedecin"><br><br>
+
+    <label for="prixPatient">Prix Patient:</label>
+    <input type="text" id="prixPatient" name="prixPatient"><br><br>
+
+    <label for="dent">Dent:</label>
+    <input type="text" id="dent" name="dent"><br><br>
+
+    <label for="acte">Acte:</label>
+    <input type="text" id="acte" name="acte"><br><br>
+
+    <label for="consultations">Consultation:</label>
+    <select id="consultations" name="consultationId">
+        <option th:each="consultation : ${consultations}"
+                th:value="${consultation.idConsultation}"
+                th:text="${consultation.idConsultation} + ' ' + ${consultation.typeConsultation}"></option>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

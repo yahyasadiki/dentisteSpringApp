@@ -2,9 +2,11 @@ package ma.dentiste.app.Service;
 
 import ma.dentiste.app.Respository.ActeRepository;
 import ma.dentiste.app.entites.Acte;
+import ma.dentiste.app.entites.InterventionMedicale;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ActeService {
@@ -32,5 +34,16 @@ public class ActeService {
 
     public static ArrayList<Acte> getAllActe() {
         return (ArrayList<Acte>) acteRepository.findAll();}
+
+
+    public static Acte setInterventionMedicale(Acte acte, InterventionMedicale interventionMedicale) {
+        List<InterventionMedicale> interventionsMedicales = acte.getInterventionsMedicales();
+        if (interventionsMedicales == null) {
+            interventionsMedicales = new ArrayList<>();
+        }
+        interventionsMedicales.add(interventionMedicale);
+        acte.setInterventionsMedicales(interventionsMedicales);
+        return acteRepository.save(acte);
+    }
 
 }

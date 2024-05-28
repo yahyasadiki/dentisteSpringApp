@@ -1,6 +1,7 @@
 package ma.dentiste.app.Service;
 
 import ma.dentiste.app.Respository.DossierMedicaleRepository;
+import ma.dentiste.app.entites.Consultation;
 import ma.dentiste.app.entites.Dentiste;
 import ma.dentiste.app.entites.Patient;
 import org.springframework.stereotype.Service;
@@ -58,4 +59,5 @@ public class DossierMedicalService {
         });
         return dossierMedicales;
     }
+
 }

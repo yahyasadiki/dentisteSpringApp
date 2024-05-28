@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +24,8 @@ public class controller {
     private PatientService patientService;
     @Autowired
     private DossierMedicalService dossierMedicalService;
+    @Autowired
+    private ConsultationService consultationService;
 
     @GetMapping("/index")
     public String hello() {
@@ -195,5 +196,87 @@ public class controller {
             return "error";
         }
     }
+
+
+    @GetMapping("/addConsultation")
+    public String addConsultation(Model model) {
+        model.addAttribute("consultation", new Consultation());
+        List<TypeConsultation> typeConsultations = Arrays.asList(TypeConsultation.values());
+        model.addAttribute("typeConsultations", typeConsultations);
+        List<DossierMedicale> dossierMedicales = dossierMedicalService.getAllDossierMedical();
+        model.addAttribute("dossierMedicales", dossierMedicalService.getAllDossierMedical());
+        return "addConsultation";
+    }
+
+    @PostMapping("/addConsultation")
+    public String addConsultationPost(@ModelAttribute Consultation consultation, Model model,
+                                      @RequestParam Long dossierMedicaleId) {
+        Consultation newConsultation = consultationService.createConsultation(consultation);
+        DossierMedicale dossierMedicale = dossierMedicalService.getDossierMedicalById(dossierMedicaleId);
+        if (newConsultation != null) {
+            consultationService.setDossierMedicale(newConsultation, dossierMedicale);
+            model.addAttribute("consultation", newConsultation);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add Consultation!");
+            return "error";
+        }
+    }
+
+
+    @GetMapping("/addIntervention")
+    public String addIntervention(Model model) {
+        model.addAttribute("intervention", new InterventionMedicale());
+        List<Consultation> consultations = consultationService.getAllConsultations();
+        model.addAttribute("consultations", consultations);
+        return "addIntervention";
+    }
+
+    @PostMapping("/addIntervention")
+    public String addInterventionPost(@ModelAttribute InterventionMedicale intervention, Model model,
+                                      @RequestParam Long consultationId) {
+        InterventionMedicale newIntervention = InterventionMedicalService.createInterventionMedicale(intervention);
+        Consultation consultation = consultationService.getConsultationById(consultationId);
+        if (newIntervention != null) {
+            InterventionMedicalService.setConsultation(newIntervention, consultation);
+            model.addAttribute("intervention", newIntervention);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add Intervention!");
+            return "error";
+        }
+    }
+
+    @GetMapping("/addActe")
+    public String addActe(Model model) {
+        ArrayList<InterventionMedicale> interventions = InterventionMedicalService.getAllInterventionMedicales();
+        model.addAttribute("interventions", interventions);
+        ArrayList<CategorieActe> categories = new ArrayList<>(Arrays.asList(CategorieActe.values()));
+        model.addAttribute("categories", categories);
+        model.addAttribute("acte", new Acte());
+        return "addActe";
+    }
+
+
+    @PostMapping("/addActe")
+    public String addActePost(@ModelAttribute Acte acte, Model model,
+                              @RequestParam Long interventionId) {
+        Acte newActe = ActeService.createActe(acte);
+        InterventionMedicale intervention = InterventionMedicalService.getInterventionMedicaleById(interventionId);
+        if (newActe != null) {
+            ActeService.setInterventionMedicale(newActe, intervention);
+            model.addAttribute("acte", newActe);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add Acte!");
+            return "error";
+        }
+    }
+
+
+
 }
+
+
+
 

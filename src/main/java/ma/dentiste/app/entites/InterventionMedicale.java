@@ -18,6 +18,7 @@ public class InterventionMedicale implements Serializable {
     private String noteMedecin;
     private Long dent;
     private Long acte;
+    private double prixPatient;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idConsultation")
     private Consultation consultation;

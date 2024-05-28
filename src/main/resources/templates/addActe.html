@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Création d'un acte</h1>
+
+<form action="/addActe" method="post" th:object="${acte}">
+    <label for="libelle">Libellé</label>
+    <input type="text" id="libelle" name="libelle" th:field="*{libelle}"><br>
+    <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Libellé Error</div>
+
+    <label for="prixDeBase">Prix de base</label>
+    <input type="text" id="prixDeBase" name="prixDeBase" th:field="*{prixDeBase}"><br>
+    <div th:if="${#fields.hasErrors('prixDeBase')}" th:errors="*{prixDeBase}">Prix de Base Error</div>
+
+    <label for="categorie">Catégorie acte</label>
+    <select id="categorie" name="categorie" th:field="*{categorieActe}">
+        <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
+    </select>
+    <br>
+
+    <label for="interventionId">Intervention associée</label>
+    <select id="interventionId" name="interventionId">
+        <option th:each="intervention : ${interventions}" th:value="${intervention.idInterventionMedicale}"
+                th:text="${intervention.idInterventionMedicale}"></option>
+    </select>
+
+    <input type="submit" value="Créer l'acte">
+</form>
+
+</body>
+</html>

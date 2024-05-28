@@ -15,14 +15,18 @@
     <p>Last Name: <span th:text="${dentiste.getPrenom()}"></span></p>
     <p>Phone: <span th:text="${dentiste.getTelephone()}"></span></p>
     <p>Address: <span th:text="${dentiste.getAdresse()}"></span></p>
-    <a href="/editProfile">Edit Profile</a>
-    <a href="/logout">Logout</a>
+
 </div>
 
 <div>
-    <a href="/patients">Patients</a>
-    <a href="/CRUDdentiste">Details</a>
-    <a href="/addDossierMedical">Ajouter un patient avec dossier medical</a>
+    <a href="/editProfile">Edit Profile</a><br>
+    <a href="/logout">Logout</a><br>
+    <a href="/patients">Patients</a><br>
+    <a href="/CRUDdentiste">Details</a><br>
+    <a href="/addDossierMedical">Ajouter un dossier medical</a><br>
+    <a href="/addPatient">Ajouter un patient</a><br>
+    <a href="/addConsultation">Ajouter une consultation</a><br>
+    <a href="/addIntervention">Ajouter une intervention</a><br>
 </div>
 
 
