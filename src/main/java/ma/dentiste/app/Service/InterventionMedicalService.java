@@ -1,6 +1,6 @@
 package ma.dentiste.app.Service;
 
-import ma.dentiste.app.entites.Consultation;
+import ma.dentiste.app.entites.*;
 import org.springframework.stereotype.Service;
 import ma.dentiste.app.Respository.InterventionMedicaleRepository;
 import ma.dentiste.app.entites.InterventionMedicale;
@@ -48,6 +48,11 @@ public InterventionMedicale updateInterventionMedicale(InterventionMedicale inte
 
     public static InterventionMedicale setConsultation(InterventionMedicale interventionMedicale, Consultation consultation) {
         interventionMedicale.setConsultation(consultation);
+        return interventionMedicaleRepository.save(interventionMedicale);
+    }
+
+    public static InterventionMedicale setActe(InterventionMedicale interventionMedicale, Acte acte) {
+        interventionMedicale.setActe(acte);
         return interventionMedicaleRepository.save(interventionMedicale);
     }
 }

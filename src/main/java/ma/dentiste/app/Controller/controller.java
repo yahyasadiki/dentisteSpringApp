@@ -18,7 +18,9 @@ public class controller {
 
     @Autowired
     private DentisteService dentisteService;
+    @Autowired
     private SecretaireService secretaireService;
+    @Autowired
     private ActeService acteService;
     @Autowired
     private PatientService patientService;
@@ -26,6 +28,8 @@ public class controller {
     private DossierMedicalService dossierMedicalService;
     @Autowired
     private ConsultationService consultationService;
+    @Autowired
+    private InterventionMedicalService interventionMedicalService;
 
     @GetMapping("/index")
     public String hello() {
@@ -263,15 +267,13 @@ public class controller {
                               @RequestParam Long interventionId) {
         Acte newActe = ActeService.createActe(acte);
         InterventionMedicale intervention = InterventionMedicalService.getInterventionMedicaleById(interventionId);
-        if (newActe != null) {
-            ActeService.setInterventionMedicale(newActe, intervention);
-            model.addAttribute("acte", newActe);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add Acte!");
-            return "error";
-        }
+        ActeService.setInterventionMedicale(newActe, intervention);
+        InterventionMedicalService.setActe(intervention, newActe);
+        model.addAttribute("acte", newActe);
+        return "index";
     }
+
+
 
 
 
