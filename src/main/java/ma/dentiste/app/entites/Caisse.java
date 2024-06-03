@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Caisse implements Serializable{
+public class Caisse implements Serializable {
     @Id
     @GeneratedValue
     private Long idCaisse;

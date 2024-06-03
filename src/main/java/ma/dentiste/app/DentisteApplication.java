@@ -1,20 +1,14 @@
 package ma.dentiste.app;
 
 
-import ma.dentiste.app.Respository.*;
-import ma.dentiste.app.Service.ActeService;
-import ma.dentiste.app.entites.*;
-import ma.dentiste.app.entites.enums.*;
+import ma.dentiste.app.Respository.ActeRepository;
+import ma.dentiste.app.Respository.AntecedentMedicaleRepository;
+import ma.dentiste.app.Respository.DentisteRepository;
+import ma.dentiste.app.Respository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.time.DayOfWeek;
-import java.util.HashMap;
-import java.util.Map;
-import java.time.LocalDate;
-import java.util.List;
 
 @SpringBootApplication
 public class DentisteApplication implements CommandLineRunner {

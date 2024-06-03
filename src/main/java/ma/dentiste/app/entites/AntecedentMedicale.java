@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AntecedentMedicale implements Serializable{
+public class AntecedentMedicale implements Serializable {
     @Id
     @GeneratedValue
     private Long idAntecedent;

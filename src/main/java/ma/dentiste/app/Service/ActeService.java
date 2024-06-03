@@ -33,7 +33,8 @@ public class ActeService {
     }
 
     public static ArrayList<Acte> getAllActe() {
-        return (ArrayList<Acte>) acteRepository.findAll();}
+        return (ArrayList<Acte>) acteRepository.findAll();
+    }
 
 
     public static Acte setInterventionMedicale(Acte acte, InterventionMedicale interventionMedicale) {

@@ -1,9 +1,5 @@
 package ma.dentiste.app.entites;
 
-import java.time.LocalDate;
-
-import org.springframework.cglib.core.Local;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,11 +9,13 @@ import lombok.NoArgsConstructor;
 import ma.dentiste.app.entites.enums.Assurance;
 import ma.dentiste.app.entites.enums.StatusEmploye;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Secretaire extends Utilisateur{
+public class Secretaire extends Utilisateur {
     private Double salaireDeBase;
     private LocalDate dateRetourConge;
     private Assurance assurance;

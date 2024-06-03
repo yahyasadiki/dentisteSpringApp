@@ -1,15 +1,17 @@
 package ma.dentiste.app.Controller;
 
 import ma.dentiste.app.Service.*;
-import ma.dentiste.app.entites.enums.*;
 import ma.dentiste.app.entites.*;
+import ma.dentiste.app.entites.enums.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -30,6 +32,8 @@ public class controller {
     private ConsultationService consultationService;
     @Autowired
     private InterventionMedicalService interventionMedicalService;
+    @Autowired
+    private FactureService factureService;
 
     @GetMapping("/index")
     public String hello() {
@@ -43,7 +47,7 @@ public class controller {
 
     @GetMapping("/login")
     public String login() {
-        return "Login";
+        return "login";
     }
 
     @PostMapping("/login")
@@ -77,7 +81,6 @@ public class controller {
         Dentiste newDentiste = dentisteService.createDentiste(dentiste);
         if (newDentiste != null) {
             model.addAttribute("dentiste", newDentiste);
-            System.out.println(newDentiste.toString());
             return "profile";
         } else {
             model.addAttribute("errorMessage", "Failed to register!");
@@ -128,48 +131,12 @@ public class controller {
     public String logout(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
         if (dentiste != null) {
             model.addAttribute("dentiste", null);
-            return "Login";
+            return "login";
         } else {
             model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
             return "error";
         }
     }
-
-    @GetMapping("/CRUDdentiste")
-    public String CRUDdentiste(Model model) {
-        model.addAttribute("actes", acteService.getAllActe());
-        return "CRUDdentiste";
-    }
-
-
-    @GetMapping("/addDossierMedical")
-    public String addDossierMedical(Model model) {
-        model.addAttribute("dossierMedical", new DossierMedicale());
-        ArrayList<StatusPaiment> statusPaiments = new ArrayList<>(Arrays.asList(StatusPaiment.values()));
-        model.addAttribute("statusPaiments", statusPaiments);
-        ArrayList<Dentiste> dentistes = new ArrayList<>(dentisteService.getAllDentistes());
-        model.addAttribute("dentistes", dentistes);
-        return "addDossierMedical";
-    }
-
-    @PostMapping("/addDossierMedical")
-    public String addDossierMedicalPost(@ModelAttribute DossierMedicale dossierMedical, Model model,
-                                        @RequestParam String statusPaiment,
-                                        @RequestParam String dentiste) {
-        dossierMedical.setStatusPaiment(StatusPaiment.valueOf(statusPaiment));
-        dossierMedical.setDentiste(dentisteService.getDentisteById(Long.parseLong(dentiste)));
-
-        DossierMedicale newDossierMedical = dossierMedicalService.createDossierMedical(dossierMedical);
-
-        if (newDossierMedical != null) {
-            model.addAttribute("dossierMedical", newDossierMedical);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add DossierMedical!");
-            return "error";
-        }
-    }
-
 
     @GetMapping("/addPatient")
     public String addPatient(Model model) {
@@ -202,6 +169,35 @@ public class controller {
     }
 
 
+    @GetMapping("/addDossierMedical")
+    public String addDossierMedical(Model model) {
+        model.addAttribute("dossierMedical", new DossierMedicale());
+        ArrayList<StatusPaiment> statusPaiments = new ArrayList<>(Arrays.asList(StatusPaiment.values()));
+        model.addAttribute("statusPaiments", statusPaiments);
+        ArrayList<Dentiste> dentistes = new ArrayList<>(dentisteService.getAllDentistes());
+        model.addAttribute("dentistes", dentistes);
+        return "addDossierMedical";
+    }
+
+    @PostMapping("/addDossierMedical")
+    public String addDossierMedicalPost(@ModelAttribute DossierMedicale dossierMedical, Model model,
+                                        @RequestParam String statusPaiment,
+                                        @RequestParam String dentiste) {
+        dossierMedical.setStatusPaiment(StatusPaiment.valueOf(statusPaiment));
+        dossierMedical.setDentiste(dentisteService.getDentisteById(Long.parseLong(dentiste)));
+
+        DossierMedicale newDossierMedical = dossierMedicalService.createDossierMedical(dossierMedical);
+
+        if (newDossierMedical != null) {
+            model.addAttribute("dossierMedical", newDossierMedical);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add DossierMedical!");
+            return "error";
+        }
+    }
+
+
     @GetMapping("/addConsultation")
     public String addConsultation(Model model) {
         model.addAttribute("consultation", new Consultation());
@@ -209,16 +205,25 @@ public class controller {
         model.addAttribute("typeConsultations", typeConsultations);
         List<DossierMedicale> dossierMedicales = dossierMedicalService.getAllDossierMedical();
         model.addAttribute("dossierMedicales", dossierMedicalService.getAllDossierMedical());
+
+
         return "addConsultation";
     }
 
     @PostMapping("/addConsultation")
     public String addConsultationPost(@ModelAttribute Consultation consultation, Model model,
-                                      @RequestParam Long dossierMedicaleId) {
-        Consultation newConsultation = consultationService.createConsultation(consultation);
+                                      @RequestParam Long dossierMedicaleId, @RequestParam Double montantTotal) {
         DossierMedicale dossierMedicale = dossierMedicalService.getDossierMedicalById(dossierMedicaleId);
+        consultation.setDossierMedicale(dossierMedicale);
+
+        Facture facture = new Facture();
+        facture.setMontantTotal(montantTotal);
+        facture.setConsultation(consultation);
+        consultation.setFactures(Collections.singletonList(facture));
+
+        Consultation newConsultation = consultationService.createConsultation(consultation);
+
         if (newConsultation != null) {
-            consultationService.setDossierMedicale(newConsultation, dossierMedicale);
             model.addAttribute("consultation", newConsultation);
             return "profile";
         } else {
@@ -231,7 +236,7 @@ public class controller {
     @GetMapping("/addIntervention")
     public String addIntervention(Model model) {
         model.addAttribute("intervention", new InterventionMedicale());
-        List<Consultation> consultations = consultationService.getAllConsultations();
+        List<Consultation> consultations = ConsultationService.getAllConsultations();
         model.addAttribute("consultations", consultations);
         return "addIntervention";
     }
@@ -239,10 +244,10 @@ public class controller {
     @PostMapping("/addIntervention")
     public String addInterventionPost(@ModelAttribute InterventionMedicale intervention, Model model,
                                       @RequestParam Long consultationId) {
-        InterventionMedicale newIntervention = InterventionMedicalService.createInterventionMedicale(intervention);
         Consultation consultation = consultationService.getConsultationById(consultationId);
+        intervention.setConsultation(consultation);
+        InterventionMedicale newIntervention = interventionMedicalService.createInterventionMedicale(intervention);
         if (newIntervention != null) {
-            InterventionMedicalService.setConsultation(newIntervention, consultation);
             model.addAttribute("intervention", newIntervention);
             return "profile";
         } else {
@@ -250,6 +255,7 @@ public class controller {
             return "error";
         }
     }
+
 
     @GetMapping("/addActe")
     public String addActe(Model model) {
@@ -268,14 +274,48 @@ public class controller {
         Acte newActe = ActeService.createActe(acte);
         InterventionMedicale intervention = InterventionMedicalService.getInterventionMedicaleById(interventionId);
         ActeService.setInterventionMedicale(newActe, intervention);
-        InterventionMedicalService.setActe(intervention, newActe);
+        interventionMedicalService.setActe(intervention, newActe);
+
         model.addAttribute("acte", newActe);
-        return "index";
+        return "profile";
     }
 
+    @GetMapping("/addFacture")
+    public String showAddFactureForm(Model model) {
+        Facture facture = new Facture();
+        List<Consultation> consultations = consultationService.getAllConsultations();
+        model.addAttribute("consultations", consultations);
+        List<TypePaiment> typePaiements = Arrays.asList(TypePaiment.values());
+        model.addAttribute("facture", facture);
+        model.addAttribute("typePaiements", typePaiements);
+        return "addFacture";
+    }
 
+    @PostMapping("/addFacture")
+    public String addFacturePost(@ModelAttribute Facture facture, Model model,
+                                 @RequestParam Long consultationId) {
+        Consultation consultation = consultationService.getConsultationById(consultationId);
+        facture.setConsultation(consultation);
+        facture.setMontantTotal(consultation.getFactures().get(0).getMontantTotal());
+        facture.setMontantRestant(facture.getMontantTotal() - facture.getMontantPaye());
+        facture.setDateFacturation(LocalDate.now());
+        Facture newFacture = factureService.createFacture(facture);
 
+        if (newFacture != null) {
+            model.addAttribute("facture", newFacture);
+            return "profile";
+        } else {
+            model.addAttribute("errorMessage", "Failed to add Facture!");
+            return "error";
+        }
+    }
 
+    @GetMapping("/showAllPatients")
+    public String showAllPatients(Model model) {
+        List<Patient> patients = PatientService.getAllPatients();
+        model.addAttribute("patients", patients);
+        return "redirect:/patients";
+    }
 
 }
 

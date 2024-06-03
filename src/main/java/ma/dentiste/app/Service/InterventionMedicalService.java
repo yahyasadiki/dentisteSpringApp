@@ -1,9 +1,10 @@
 package ma.dentiste.app.Service;
 
-import ma.dentiste.app.entites.*;
-import org.springframework.stereotype.Service;
 import ma.dentiste.app.Respository.InterventionMedicaleRepository;
+import ma.dentiste.app.entites.Acte;
+import ma.dentiste.app.entites.Consultation;
 import ma.dentiste.app.entites.InterventionMedicale;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class InterventionMedicalService {
         return interventionMedicaleRepository.save(interventionMedicale);
     }
 
-public InterventionMedicale updateInterventionMedicale(InterventionMedicale interventionMedicale) {
+    public static InterventionMedicale updateInterventionMedicale(InterventionMedicale interventionMedicale) {
         return interventionMedicaleRepository.save(interventionMedicale);
     }
 

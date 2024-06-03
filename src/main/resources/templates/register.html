@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
@@ -11,38 +11,39 @@
 <form action="/register" method="post">
     <!-- Personne attributes -->
     <label for="nom">First Name:</label><br>
-    <input type="text" id="nom" name="nom" th:value="${dentiste.nom}"><br>
+    <input type="text" id="nom" name="nom" th:value="${dentiste.nom}" required><br>
+
     <label for="prenom">Last Name:</label><br>
-    <input type="text" id="prenom" name="prenom" th:value="${dentiste.prenom}"><br>
+    <input type="text" id="prenom" name="prenom" th:value="${dentiste.prenom}" required><br>
+
     <label for="adresse">Address:</label><br>
     <input type="text" id="adresse" name="adresse" th:value="${dentiste.adresse}"><br>
-    <label for="telephone">Telephone:</label><br>
-    <input type="tel" id="telephone" name="telephone" th:value="${dentiste.telephone}"><br>
+
+    <label for="telephone">Telephone (max 10 digits):</label><br>
+    <input type="tel" id="telephone" name="telephone" maxlength="10" pattern="\d{10}" th:value="${dentiste.telephone}"
+           required><br>
+
     <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" th:value="${dentiste.email}"><br>
-    <label for="cin">CIN:</label><br>
-    <input type="text" id="cin" name="cin" th:value="${dentiste.cin}"><br>
+    <input type="email" id="email" name="email" th:value="${dentiste.email}" required><br>
+
+    <label for="cin">CIN (max 8 characters):</label><br>
+    <input type="text" id="cin" name="cin" maxlength="8" th:value="${dentiste.cin}" required><br>
 
     <!-- Utilisateur attributes -->
     <label for="nomUtilisateur">Username:</label><br>
-    <input type="text" id="nomUtilisateur" name="nomUtilisateur" th:value="${dentiste.nomUtilisateur}"><br>
+    <input type="text" id="nomUtilisateur" name="nomUtilisateur" th:value="${dentiste.nomUtilisateur}" required><br>
+
     <label for="motDePasse">Password:</label><br>
-    <input type="password" id="motDePasse" name="motDePasse" th:value="${dentiste.motDePasse}"><br>
-    <label for="dateRetourDeConge">Return from Leave Date:</label><br>
-    <input type="date" id="dateRetourDeConge" name="dateRetourDeConge" th:value="${dentiste.dateRetourDeConge}"><br>
+    <input type="password" id="motDePasse" name="motDePasse" th:value="${dentiste.motDePasse}" required><br>
+
     <label for="salaireDeBase">Base Salary:</label><br>
-    <input type="number" id="salaireDeBase" name="salaireDeBase" step="0.01" th:value="${dentiste.salaireDeBase}"><br>
+    <input type="number" id="salaireDeBase" name="salaireDeBase" step="0.01" th:value="${dentiste.salaireDeBase}"
+           required><br>
 
     <label for="specialite">Specialty:</label><br>
-    <select id="specialite" name="specialite" th:field="*{specialites}">
+    <select id="specialite" name="specialite" th:field="*{specialites}" required>
         <option th:each="specialite : ${specialites}" th:value="${specialite}" th:text="${specialite}"></option>
     </select><br>
-
-    <label for="statusEmploye">Employee Status:</label><br>
-    <select id="statusEmploye" name="statusEmploye" th:field="*{statusEmployes}">
-        <option th:each="status : ${statusEmployes}" th:value="${status}" th:text="${status}"></option>
-    </select><br>
-
 
     <input type="submit" value="Submit">
 </form>

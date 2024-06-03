@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Consultation implements Serializable{
+public class Consultation implements Serializable {
     @Id
     @GeneratedValue
     private Long idConsultation;

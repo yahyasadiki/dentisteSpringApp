@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Patient extends Personne{
+public class Patient extends Personne {
     private LocalDate dateNaissance;
     @Enumerated(EnumType.STRING)
     private Mutuelle mutuelle;

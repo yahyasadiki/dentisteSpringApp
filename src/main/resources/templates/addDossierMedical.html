@@ -6,20 +6,33 @@
 </head>
 <body>
 
+<h1>Add Dossier</h1>
+
 <form action="/addDossierMedical" method="post" th:object="${dossierMedical}">
-    <label for="dateCreation">Date de création</label>
-    <input type="date" id="dateCreation" name="dateCreation" th:value="${dossierMedical.dateCreation}"><br>
 
-    <label for="StatusPaiment">Status de paiment</label>
-    <select id="StatusPaiment" name="statusPaiment">
-        <option th:each="status : ${statusPaiments}" th:value="${status}" th:text="${status}"></option>
-    </select><br>
+    <div>
+        <label for="dateCreation">Date de création:</label><br>
+        <input type="date" id="dateCreation" name="dateCreation" th:field="*{dateCreation}"/><br>
+    </div>
 
-    <label for="dentiste">Dentiste</label>
-    <select id="dentiste" name="dentiste">
-        <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id_personne}" th:text="${dentiste.toString()}"></option>
-    </select><br>
-    <input type="submit" value="Submit">
+    <div>
+        <label for="statusPaiment">Status de paiment:</label><br>
+        <select id="statusPaiment" name="statusPaiment" th:field="*{statusPaiment}">
+            <option th:each="status : ${statusPaiments}" th:value="${status}" th:text="${status}"></option>
+        </select><br>
+    </div>
+
+    <div>
+        <label for="dentiste">Dentiste:</label><br>
+        <select id="dentiste" name="dentiste" th:field="*{dentiste}">
+            <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id_personne}"
+                    th:text="${dentiste.toString()}"></option>
+        </select><br>
+    </div>
+
+    <div>
+        <input type="submit" value="Submit">
+    </div>
 </form>
 
 </body>

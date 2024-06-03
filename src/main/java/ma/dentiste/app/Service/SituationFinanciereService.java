@@ -1,7 +1,7 @@
 package ma.dentiste.app.Service;
 
-import ma.dentiste.app.entites.SituationFinanciere;
 import ma.dentiste.app.Respository.SituationFinanciereRepository;
+import ma.dentiste.app.entites.SituationFinanciere;
 import org.springframework.stereotype.Service;
 
 
@@ -36,7 +36,6 @@ public class SituationFinanciereService {
     public static Iterable<SituationFinanciere> getAllSituationFinancieres() {
         return situationFinanciereRepository.findAll();
     }
-
 
 
 }

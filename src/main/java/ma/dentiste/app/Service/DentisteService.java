@@ -2,10 +2,8 @@ package ma.dentiste.app.Service;
 
 import ma.dentiste.app.Respository.DentisteRepository;
 import ma.dentiste.app.entites.Dentiste;
-import ma.dentiste.app.entites.Personne;
-import ma.dentiste.app.entites.Utilisateur;
 import org.springframework.stereotype.Service;
-import ma.dentiste.app.Respository.UtilisateurRepository;
+
 import java.util.List;
 
 @Service

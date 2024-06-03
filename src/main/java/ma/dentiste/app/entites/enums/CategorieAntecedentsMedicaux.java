@@ -11,17 +11,17 @@ public enum CategorieAntecedentsMedicaux {
     private String description;
 
     private CategorieAntecedentsMedicaux(String description) {
-    	this.description=description;
+        this.description = description;
     }
 
     private CategorieAntecedentsMedicaux() {
     }
 
     public String getDescription() {
-    	return description;
+        return description;
     }
 
     public void setDescription(String description) {
-    	this.description=description;
+        this.description = description;
     }
 }

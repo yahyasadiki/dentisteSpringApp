@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer une facture</title>
+</head>
+<body>
+<h1>Créer une facture</h1>
+<form action="/addFacture" method="post" th:object="${facture}">
+    <label for="montantPaye">Montant payé</label>
+    <input type="number" id="montantPaye" name="montantPaye" th:field="*{montantPaye}"/><br>
+    <div>
+        <label for="consultations">Consultation:</label><br>
+        <select id="consultations" name="consultationId">
+            <option value="">--Choisir une consultation--</option>
+            <option th:each="consultation : ${consultations}"
+                    th:value="${consultation.idConsultation}"
+                    th:text="${consultation.idConsultation} + ' ' + ${consultation.typeConsultation}">
+            </option>
+        </select><br><br>
+    </div>
+    <div>
+        <label for="typePaiment">Type de Paiement</label>
+        <select name="typePaiment" id="typePaiment" th:field="*{typePaiment}">
+            <option value="">--Choisir un type de paiement--</option>
+            <option th:each="typePaiment : ${typePaiements}" th:value="${typePaiment}"
+                    th:text="${typePaiment}"></option>
+        </select>
+    </div>
+    <button type="submit">Créer</button>
+    <button type="reset">Annuler</button>
+</form>
+</body>
+</html>

@@ -1,8 +1,8 @@
 package ma.dentiste.app.Service;
 
-import org.springframework.stereotype.Service;
 import ma.dentiste.app.Respository.FactureRepository;
 import ma.dentiste.app.entites.Facture;
+import org.springframework.stereotype.Service;
 
 @Service
 public class FactureService {
@@ -12,8 +12,9 @@ public class FactureService {
         this.factureRepository = factureRepository;
     }
 
-    public static void createFacture(Facture facture) {
-        factureRepository.save(facture);
+    public static Facture createFacture(Facture facture) {
+
+        return factureRepository.save(facture);
     }
 
     public static void updateFacture(Facture facture) {

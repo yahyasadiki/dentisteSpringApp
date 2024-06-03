@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Details Patient</title>
@@ -9,6 +9,37 @@
 <h1>Details Patient</h1>
 
 <div class="details-table">
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Age</th>
+            <th>Telephone</th>
+            <th>Adresse</th>
+           <th>email</th>
+         <th>CIN</th>
+          <th>Mutuelle</th>
+        <th>GroupeSanguin</th>
+        <th>Antecedents medicale</th>
+        <th>Profession</th>
+        </tr>
+
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.id}"></td>
+              <td th:text="${patient.nom}"></td>
+            <td th:text="${patient.prenom}"></td>
+            <td th:text="${patient.age}"></td>
+            <td th:text="${patient.telephone}"></td>
+            <td th:text="${patient.adresse}"></td>
+            <td th:text="${patient.email}"></td>
+            <td th:text="${patient.cin}"></td>
+            <td th:text="${patient.mutuelle}"></td>
+            <td th:text="${patient.groupeSanguin}"></td>
+            <td th:text="${patient.antecedentsMedicale}"></td>
+            <td th:text="${patient.profession}"></td>
+        </tr>
+    </table>
 
 
 </div>

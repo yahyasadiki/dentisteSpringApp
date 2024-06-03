@@ -2,34 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Création d'un acte</title>
 </head>
 <body>
 
 <h1>Création d'un acte</h1>
 
 <form action="/addActe" method="post" th:object="${acte}">
-    <label for="libelle">Libellé</label>
-    <input type="text" id="libelle" name="libelle" th:field="*{libelle}"><br>
-    <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Libellé Error</div>
+    <div>
+        <label for="libelle">Libellé:</label><br>
+        <input type="text" id="libelle" name="libelle" th:field="*{libelle}"><br>
+        <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Libellé Error</div>
+    </div>
 
-    <label for="prixDeBase">Prix de base</label>
-    <input type="text" id="prixDeBase" name="prixDeBase" th:field="*{prixDeBase}"><br>
-    <div th:if="${#fields.hasErrors('prixDeBase')}" th:errors="*{prixDeBase}">Prix de Base Error</div>
+    <div>
+        <label for="prixDeBase">Prix de base:</label><br>
+        <input type="number" id="prixDeBase" name="prixDeBase" th:field="*{prixDeBase}" step="0.01">
+        <span>MAD</span><br>
+        <div th:if="${#fields.hasErrors('prixDeBase')}" th:errors="*{prixDeBase}">Prix de Base Error</div>
+    </div>
 
-    <label for="categorie">Catégorie acte</label>
-    <select id="categorie" name="categorie" th:field="*{categorieActe}">
-        <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
-    </select>
-    <br>
+    <div>
+        <label for="categorie">Catégorie acte:</label><br>
+        <select id="categorie" name="categorie" th:field="*{categorieActe}">
+            <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
+        </select><br>
+    </div>
 
-    <label for="interventionId">Intervention associée</label>
-    <select id="interventionId" name="interventionId">
-        <option th:each="intervention : ${interventions}" th:value="${intervention.idInterventionMedicale}"
-                th:text="${intervention.idInterventionMedicale}"></option>
-    </select>
+    <div>
+        <label for="interventionId">Intervention associée:</label><br>
+        <select id="interventionId" name="interventionId">
+            <option th:each="intervention : ${interventions}" th:value="${intervention.idInterventionMedicale}"
+                    th:text="${intervention.idInterventionMedicale}"></option>
+        </select><br>
+    </div>
 
-    <input type="submit" value="Créer l'acte">
+    <div>
+        <input type="submit" value="Créer l'acte">
+    </div>
 </form>
 
 </body>

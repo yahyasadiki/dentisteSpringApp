@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Facture implements Serializable{
+public class Facture implements Serializable {
     @Id
     @GeneratedValue
     private Long idFacture;

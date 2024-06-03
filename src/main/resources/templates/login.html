@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Utilisateur</title>
+</head>
+<body>
+
+<h2>Login Utilisateur</h2>
+
+<form action="#" th:action="@{/login}" method="post">
+    <div>
+        <label for="nomUtilisateur">Nom Utilisateur:</label>
+        <input type="text" id="nomUtilisateur" name="nomUtilisateur">
+    </div>
+    <div>
+        <label for="motDePasse">Mot de Passe:</label>
+        <input type="password" id="motDePasse" name="motDePasse">
+
+    </div>
+    <button type="submit">Se Connecter</button>
+</form>
+
+<a href="/register">S'inscrire autant qu'un nouvel Dentiste</a>
+
+</body>
+</html>

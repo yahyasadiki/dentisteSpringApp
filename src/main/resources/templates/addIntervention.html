@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add Intervention Medical</title>
@@ -7,15 +7,23 @@
 <body>
 <h1>Add Intervention Medical</h1>
 
-<form action="/addIntervention" method="post">
-    <label for="noteMedecin">Note Medecin:</label>
-    <input type="text" id="noteMedecin" name="noteMedecin"><br><br>
+<form action="/addIntervention" method="post" th:object="${intervention}">
+    <div>
+        <label for="noteMedecin">Note Medecin:</label><br>
+        <input type="text" id="noteMedecin" name="noteMedecin" th:field="*{noteMedecin}"><br><br>
+    </div>
 
-    <label for="prixPatient">Prix Patient:</label>
-    <input type="text" id="prixPatient" name="prixPatient"><br><br>
+    <div>
+        <label for="prixPatient">Prix Patient:</label><br>
+        <input type="number" id="prixPatient" name="prixPatient" th:field="*{prixPatient}"><br><br>
+    </div>
 
-    <label for="dent">Dent:</label>
-    <input type="text" id="dent" name="dent"><br><br>
+    <div>
+        <label for="dent">Nombre de Dents:</label><br>
+        <select id="dent" name="dent" th:field="*{dent}">
+            <option th:each="i : ${#numbers.sequence(1, 32)}" th:value="${i}" th:text="${i}"></option>
+        </select><br><br>
+    </div>
 
     <label for="consultations">Consultation:</label>
     <select id="consultations" name="consultationId">
@@ -24,7 +32,10 @@
                 th:text="${consultation.idConsultation} + ' ' + ${consultation.typeConsultation}"></option>
     </select><br><br>
 
-    <input type="submit" value="Submit">
+    <div>
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+    </div>
 </form>
 </body>
 </html>

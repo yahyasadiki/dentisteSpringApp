@@ -1,20 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Index Page</title>
 </head>
 <body>
-<h1>Dental Soft App</h1>
-<h2>Home Page</h2>
-
-<a href="/patients">Patients</a>
-<a href="/addDossierMedical">Add Dossier Medical</a>
-<a href="/addPatient">Add Patient</a>
-<a href="/addIntervention">Add Intervention medical</a>
-<a href="/addConsultation">Add Consultation</a>
-<a href="/addActe">Add Acte</a>
-
-
+<div th:replace="fragment/headerFragment :: headerFragment"></div>
+<div>
+    <p>This is the main content of the index page.</p>
+</div>
 </body>
 </html>

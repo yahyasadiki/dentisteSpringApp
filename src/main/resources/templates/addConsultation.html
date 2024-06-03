@@ -10,24 +10,35 @@
 
 <form action="/addConsultation" method="post" th:object="${consultation}">
 
-    <label for="dossierMedicaleId">Dossier Medicale:</label><br>
-    <select id="dossierMedicaleId" name="dossierMedicaleId">
-        <option th:each="dossierMedicale : ${dossierMedicales}" th:value="${dossierMedicale.numeroDossier}" th:text="${dossierMedicale.numeroDossier}"></option>
-    </select><br>
+    <div>
+        <label for="dossierMedicaleId">Dossier Medicale:</label><br>
+        <select id="dossierMedicaleId" name="dossierMedicaleId">
+            <option th:each="dossierMedicale : ${dossierMedicales}" th:value="${dossierMedicale.numeroDossier}"
+                    th:text="${dossierMedicale.numeroDossier}"></option>
+        </select><br>
+    </div>
 
-    <label for="dateConsultation">Date Consultation</label>
-    <input type="date" id="dateConsultation" name="dateConsultation" th:field="*{dateConsultation}"/><br>
+    <div>
+        <label for="dateConsultation">Date Consultation:</label><br>
+        <input type="date" id="dateConsultation" name="dateConsultation" th:field="*{dateConsultation}"/><br>
+    </div>
 
-    <label for="typeConsultation">Type Consultation</label>
-    <select id="typeConsultation" name="typeConsultation" th:field="*{typeConsultation}">
-        <option th:each="typeConsultation : ${typeConsultations}"
-                th:value="${typeConsultation}"
-                th:text="${typeConsultation.toString()}"></option>
-    </select><br>
+    <div>
+        <label for="typeConsultation">Type Consultation:</label><br>
+        <select id="typeConsultation" name="typeConsultation" th:field="*{typeConsultation}">
+            <option th:each="typeConsultation : ${typeConsultations}" th:value="${typeConsultation}"
+                    th:text="${typeConsultation.toString()}"></option>
+        </select><br>
+    </div>
 
+    <div>
+        <label for="montantTotal">Montant Total:</label><br>
+        <input type="number" id="montantTotal" name="montantTotal"/><br>
+    </div>
 
-
-    <input type="submit" value="Submit">
+    <div>
+        <input type="submit" value="Submit">
+    </div>
 </form>
 
 </body>

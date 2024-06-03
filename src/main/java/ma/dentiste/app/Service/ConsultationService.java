@@ -6,6 +6,7 @@ import ma.dentiste.app.entites.DossierMedicale;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ConsultationService {
@@ -16,7 +17,7 @@ public class ConsultationService {
     }
 
     public static Consultation createConsultation(Consultation consultation) {
-       return consultationRepository.save(consultation);
+        return consultationRepository.save(consultation);
     }
 
     public static void updateConsultation(Consultation consultation) {
@@ -31,10 +32,11 @@ public class ConsultationService {
         return consultationRepository.findById(id).get();
     }
 
-    public static ArrayList<Consultation> getAllConsultations() {
-        return (ArrayList<Consultation>) consultationRepository.findAll();
+    public static List<Consultation> getAllConsultations() {
+        List<Consultation> consultations = new ArrayList<>();
+        consultationRepository.findAll().forEach(consultations::add);
+        return consultations;
     }
-    // set dossierMedicale
 
     public static void setDossierMedicale(Consultation consultation, DossierMedicale dossierMedicale) {
         consultation.setDossierMedicale(dossierMedicale);
