@@ -3,37 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Dossier</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
-<h1>Add Dossier</h1>
+<div class="container">
+    <h1>Add Dossier</h1>
 
-<form action="/addDossierMedical" method="post" th:object="${dossierMedical}">
+    <form action="/addDossierMedical" method="post" th:object="${dossierMedical}">
+        <div class="form-group">
+            <label for="dateCreation">Date de création:</label>
+            <input type="date" id="dateCreation" name="dateCreation" class="form-control" th:field="*{dateCreation}"/>
+        </div>
 
-    <div>
-        <label for="dateCreation">Date de création:</label><br>
-        <input type="date" id="dateCreation" name="dateCreation" th:field="*{dateCreation}"/><br>
-    </div>
+        <div class="form-group">
+            <label for="statusPaiment">Statut de paiement:</label>
+            <select id="statusPaiment" name="statusPaiment" class="form-control" th:field="*{statusPaiment}">
+                <option th:each="status : ${statusPaiments}" th:value="${status}" th:text="${status}"></option>
+            </select>
+        </div>
 
-    <div>
-        <label for="statusPaiment">Status de paiment:</label><br>
-        <select id="statusPaiment" name="statusPaiment" th:field="*{statusPaiment}">
-            <option th:each="status : ${statusPaiments}" th:value="${status}" th:text="${status}"></option>
-        </select><br>
-    </div>
+        <div class="form-group">
+            <label for="dentiste">Dentiste:</label>
+            <select id="dentiste" name="dentiste" class="form-control" th:field="*{dentiste}">
+                <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id_personne}" th:text="${dentiste.toString()}"></option>
+            </select>
+        </div>
 
-    <div>
-        <label for="dentiste">Dentiste:</label><br>
-        <select id="dentiste" name="dentiste" th:field="*{dentiste}">
-            <option th:each="dentiste : ${dentistes}" th:value="${dentiste.id_personne}"
-                    th:text="${dentiste.toString()}"></option>
-        </select><br>
-    </div>
-
-    <div>
-        <input type="submit" value="Submit">
-    </div>
-</form>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/profile" class="btn btn-secondary">Retour</a>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

@@ -3,9 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .error-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .error-heading {
+            color: red;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1 style="color: red;">Erreur</h1>
-<h2 th:text="${errorMessage}"></h2>
+<div class="error-container">
+    <h1 class="error-heading">Erreur</h1>
+    <h2 th:text="${errorMessage}"></h2>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

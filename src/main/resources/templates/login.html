@@ -2,26 +2,92 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Utilisateur</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 100px;
+            max-width: 500px;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .link-container {
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h2>Login Utilisateur</h2>
 
-<h2>Login Utilisateur</h2>
+    <form action="#" th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label for="nomUtilisateur">Nom Utilisateur:</label>
+            <input type="text" class="form-control" id="nomUtilisateur" name="nomUtilisateur" required>
+        </div>
+        <div class="form-group">
+            <label for="motDePasse">Mot de Passe:</label>
+            <input type="password" class="form-control" id="motDePasse" name="motDePasse" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Se Connecter</button>
+    </form>
 
-<form action="#" th:action="@{/login}" method="post">
-    <div>
-        <label for="nomUtilisateur">Nom Utilisateur:</label>
-        <input type="text" id="nomUtilisateur" name="nomUtilisateur">
+    <div class="link-container">
+        <a href="/register">S'inscrire autant qu'un nouvel Dentiste</a><br>
+        <a href="/profile" class="btn btn-primary mt-3">Retour</a>
     </div>
-    <div>
-        <label for="motDePasse">Mot de Passe:</label>
-        <input type="password" id="motDePasse" name="motDePasse">
+</div>
 
-    </div>
-    <button type="submit">Se Connecter</button>
-</form>
+<footer>
+    Made with <span style="color: red;">&#10084;</span> by Yahya | Made with <i class="fas fa-leaf"></i> Spring
+</footer>
 
-<a href="/register">S'inscrire autant qu'un nouvel Dentiste</a>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </body>
 </html>

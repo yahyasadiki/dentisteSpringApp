@@ -34,6 +34,10 @@ public class controller {
     private InterventionMedicalService interventionMedicalService;
     @Autowired
     private FactureService factureService;
+    @Autowired
+    private SituationFinanciereService SituationFinanciereService;
+    @Autowired
+    private CaisseService caisseService;
 
     @GetMapping("/index")
     public String hello() {
@@ -225,6 +229,7 @@ public class controller {
             situationFinanciere.setMontantGlobalPaye(0.0);
             situationFinanciere.setMontantGlobalRestant(0.0);
             situationFinanciere.setDossierMedicale(newDossierMedical);
+            situationFinanciere.setDateCreation(LocalDate.now());
             SituationFinanciere newSituationFinanciere = SituationFinanciereService.createSituationFinanciere(situationFinanciere);
             newDossierMedical.setSituationFinanciere(newSituationFinanciere);
 
@@ -372,6 +377,11 @@ public class controller {
             facture.setDateFacturation(LocalDate.now());
             Facture newFacture = factureService.createFacture(facture);
 
+            // save in caisse
+            Caisse caisse = caisseService.createNewCaisse();
+
+
+
             if (newFacture != null) {
                 model.addAttribute("facture", newFacture);
                 return "profile";
@@ -416,6 +426,13 @@ public String showPatientDetails(@PathVariable Long id, Model model) {
         List<Consultation> consultations = consultationService.getConsultationsByPatient(patient);
         model.addAttribute("consultations", consultations);
 
+        List<SituationFinanciere> situationFinancieres = new ArrayList<>();
+        for (Consultation consultation : consultations) {
+            SituationFinanciere situationFinanciere = consultation.getDossierMedicale().getSituationFinanciere();
+            situationFinancieres.add(situationFinanciere);
+        }
+        model.addAttribute("situationFinancieres", situationFinancieres);
+
         List<InterventionMedicale> allInterventions = new ArrayList<>();
         List<Acte> allActes = new ArrayList<>();
         List<Facture> allFactures = new ArrayList<>();
@@ -437,14 +454,16 @@ public String showPatientDetails(@PathVariable Long id, Model model) {
         model.addAttribute("actes", allActes);
         model.addAttribute("factures", allFactures);
 
+        // Fetch all the "caisse" records and add them to the model
+        List<Caisse> allCaisses = caisseService.getAllCaisses();
+        model.addAttribute("caisses", allCaisses);
+
         return "patientDetails";
     } catch (Exception e) {
         model.addAttribute("errorMessage", e.getMessage());
         return "error";
     }
 }
-
-
 
 }
 

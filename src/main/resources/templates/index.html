@@ -1,17 +1,95 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Include your CSS file for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Add custom styles for the background image */
+        body {
+            background-image: url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            padding: 20px;
+        }
+
+        /* Add custom styles for the text content */
+        .content {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        /* Add custom styles for the footer */
+        footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Center the button */
+        .centered-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Add some space between the button and the content */
+        }
+
+        /* Style the button */
+        .styled-button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            margin: 0 10px; /* Add some space between the buttons */
+        }
+
+        .styled-button:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<div th:replace="fragment/headerFragment :: headerFragment"></div>
+<div class="container">
+    <div class="content">
+        <h1>Welcome to Our Website</h1>
+        <p>We offer amazing prices and sales on a wide range of products. Check out our latest offers below:</p>
+        <h2>Special Offers</h2>
+        <ul>
+            <li>50% off on selected items</li>
+            <li>Buy one, get one free</li>
+            <li>Summer clearance sale - up to 70% off</li>
+        </ul>
+        <h2>Prices</h2>
+        <p>Our prices are unbeatable. Here are some examples:</p>
+        <ul>
+            <li>Product A: $20</li>
+            <li>Product B: $15</li>
+            <li>Product C: $25</li>
+        </ul>
+    </div>
+</div>
 
-<h1>Welcome to the Dental Clinic Management System</h1>
+<footer>
+    Made with <span style="color: red;">&#10084;</span> by Yahya | Made with <i class="fas fa-leaf"></i> Spring
+</footer>
 
-
-
+<div class="centered-button">
+    <a href="/register" class="btn styled-button">Register Now</a>
+    <a href="/login" class="btn styled-button">Login</a>
+</div>
 
 </body>
 </html>

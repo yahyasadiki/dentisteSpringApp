@@ -3,50 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 50px;
+            max-width: 600px;
+        }
+
+        .form-label {
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h1 class="text-center">Register</h1>
+    <form action="/register" method="post">
+        <!-- Personne attributes -->
+        <div class="form-group">
+            <label for="nom" class="form-label">First Name:</label>
+            <input type="text" class="form-control" id="nom" name="nom" th:value="${dentiste.nom}" required>
+        </div>
+        <div class="form-group">
+            <label for="prenom" class="form-label">Last Name:</label>
+            <input type="text" class="form-control" id="prenom" name="prenom" th:value="${dentiste.prenom}" required>
+        </div>
+        <div class="form-group">
+            <label for="adresse" class="form-label">Address:</label>
+            <input type="text" class="form-control" id="adresse" name="adresse" th:value="${dentiste.adresse}">
+        </div>
+        <div class="form-group">
+            <label for="telephone" class="form-label">Telephone (max 10 digits):</label>
+            <input type="tel" class="form-control" id="telephone" name="telephone" maxlength="10" pattern="\d{10}" th:value="${dentiste.telephone}" required>
+        </div>
+        <div class="form-group">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" th:value="${dentiste.email}" required>
+        </div>
+        <div class="form-group">
+            <label for="cin" class="form-label">CIN (max 8 characters):</label>
+            <input type="text" class="form-control" id="cin" name="cin" maxlength="8" th:value="${dentiste.cin}" required>
+        </div>
 
-<h1>Register</h1>
+        <!-- Utilisateur attributes -->
+        <div class="form-group">
+            <label for="nomUtilisateur" class="form-label">Username:</label>
+            <input type="text" class="form-control" id="nomUtilisateur" name="nomUtilisateur" th:value="${dentiste.nomUtilisateur}" required>
+        </div>
+        <div class="form-group">
+            <label for="motDePasse" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="motDePasse" name="motDePasse" th:value="${dentiste.motDePasse}" required>
+        </div>
+        <div class="form-group">
+            <label for="salaireDeBase" class="form-label">Base Salary:</label>
+            <input type="number" class="form-control" id="salaireDeBase" name="salaireDeBase" step="0.01" th:value="${dentiste.salaireDeBase}" required>
+        </div>
+        <div class="form-group">
+            <label for="specialite" class="form-label">Specialty:</label>
+            <select id="specialite" name="specialite" class="form-control" th:field="*{specialites}" required>
+                <option th:each="specialite : ${specialites}" th:value="${specialite}" th:text="${specialite}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <a href="/profile" class="btn btn-secondary btn-block">Retour</a>
+    </form>
+</div>
 
-<form action="/register" method="post">
-    <!-- Personne attributes -->
-    <label for="nom">First Name:</label><br>
-    <input type="text" id="nom" name="nom" th:value="${dentiste.nom}" required><br>
+<footer>
+    Made with <span style="color: red;">&#10084;</span> by Yahya | Made with <i class="fas fa-leaf"></i> Spring
+</footer>
 
-    <label for="prenom">Last Name:</label><br>
-    <input type="text" id="prenom" name="prenom" th:value="${dentiste.prenom}" required><br>
-
-    <label for="adresse">Address:</label><br>
-    <input type="text" id="adresse" name="adresse" th:value="${dentiste.adresse}"><br>
-
-    <label for="telephone">Telephone (max 10 digits):</label><br>
-    <input type="tel" id="telephone" name="telephone" maxlength="10" pattern="\d{10}" th:value="${dentiste.telephone}"
-           required><br>
-
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" th:value="${dentiste.email}" required><br>
-
-    <label for="cin">CIN (max 8 characters):</label><br>
-    <input type="text" id="cin" name="cin" maxlength="8" th:value="${dentiste.cin}" required><br>
-
-    <!-- Utilisateur attributes -->
-    <label for="nomUtilisateur">Username:</label><br>
-    <input type="text" id="nomUtilisateur" name="nomUtilisateur" th:value="${dentiste.nomUtilisateur}" required><br>
-
-    <label for="motDePasse">Password:</label><br>
-    <input type="password" id="motDePasse" name="motDePasse" th:value="${dentiste.motDePasse}" required><br>
-
-    <label for="salaireDeBase">Base Salary:</label><br>
-    <input type="number" id="salaireDeBase" name="salaireDeBase" step="0.01" th:value="${dentiste.salaireDeBase}"
-           required><br>
-
-    <label for="specialite">Specialty:</label><br>
-    <select id="specialite" name="specialite" th:field="*{specialites}" required>
-        <option th:each="specialite : ${specialites}" th:value="${specialite}" th:text="${specialite}"></option>
-    </select><br>
-
-    <input type="submit" value="Submit">
-</form>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </body>
 </html>

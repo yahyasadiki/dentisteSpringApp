@@ -3,55 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <title>Patient Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        h1, h2 {
+            margin-top: 20px;
+        }
+
+        .list-group-item {
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .list-group-item p {
+            margin: 0;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Patient Details for <span th:text="${patient.nom}"></span></h1>
+<div class="container">
+    <h1 class="text-center">Patient Details for <span th:text="${patient.nom}"></span></h1>
 
-<h2>Consultations</h2>
-<div class="consultations">
-    <ul>
-        <li th:each="consultation : ${consultations}">
-            <p>Consultation ID: <span th:text="${consultation.idConsultation}"></span></p>
-            <p>Date: <span th:text="${consultation.dateConsultation}"></span></p>
-            <p>Type of Consultation: <span th:text="${consultation.typeConsultation}"></span></p>
-        </li>
-    </ul>
+    <h2>Consultations</h2>
+    <div class="consultations">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="consultation : ${consultations}">
+                <p><strong>Consultation ID:</strong> <span th:text="${consultation.idConsultation}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${consultation.dateConsultation}"></span></p>
+                <p><strong>Type of Consultation:</strong> <span th:text="${consultation.typeConsultation}"></span></p>
+            </li>
+        </ul>
+    </div>
+
+    <h2>Interventions</h2>
+    <div class="interventions">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="intervention : ${interventions}">
+                <p><strong>Intervention ID:</strong> <span th:text="${intervention.idInterventionMedicale}"></span></p>
+                <p><strong>Note Medecin:</strong> <span th:text="${intervention.noteMedecin}"></span></p>
+            </li>
+        </ul>
+    </div>
+
+    <h2>Actes</h2>
+    <div class="actes">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="acte : ${actes}">
+                <p><strong>Acte ID:</strong> <span th:text="${acte.idActe}"></span></p>
+                <p><strong>Categorie:</strong> <span th:text="${acte.categorieActe}"></span></p>
+            </li>
+        </ul>
+    </div>
+
+    <h2>Situation Financiere</h2>
+    <div class="situation-financiere">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="situation : ${situationFinancieres}">
+                <p><strong>Montant Total:</strong> <span th:text="${situation.montantGlobalPaye}"></span></p>
+                <p><strong>Montant Payé:</strong> <span th:text="${situation.montantGlobalPaye}"></span></p>
+                <p><strong>Montant Restant:</strong> <span th:text="${situation.montantGlobalRestant}"></span></p>
+                <p><strong>Date Paiement:</strong> <span th:text="${situation.dateCreation}"></span></p>
+            </li>
+        </ul>
+    </div>
+
+    <h2>Factures</h2>
+    <div class="factures">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="facture : ${factures}">
+                <p><strong>Facture ID:</strong> <span th:text="${facture.idFacture}"></span></p>
+                <p><strong>Montant Total:</strong> <span th:text="${facture.montantTotal}"></span></p>
+                <p><strong>Montant Payé:</strong> <span th:text="${facture.montantPaye}"></span></p>
+                <p><strong>Montant Restant:</strong> <span th:text="${facture.montantRestant}"></span></p>
+                <p><strong>Date Facturation:</strong> <span th:text="${facture.dateFacturation}"></span></p>
+                <p><strong>Type de Paiement:</strong> <span th:text="${facture.typePaiment}"></span></p>
+            </li>
+        </ul>
+    </div>
+
+    <h2>Caisse</h2>
+    <div class="caisse">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="caisse : ${caisses}">
+                <p><strong>Caisse ID:</strong> <span th:text="${caisse.idCaisse}"></span></p>
+                <p><strong>Montant Total:</strong> <span th:text="${caisse.montantTotal}"></span></p>
+                <p><strong>Montant Payé:</strong> <span th:text="${caisse.montantPaye}"></span></p>
+                <p><strong>Montant Restant:</strong> <span th:text="${caisse.montantRestant}"></span></p>
+                <p><strong>Date Paiement:</strong> <span th:text="${caisse.dateCreation}"></span></p>
+            </li>
+        </ul>
+    </div>
 </div>
 
-<h2>Interventions</h2>
-<div class="interventions">
-    <ul>
-        <li th:each="intervention : ${interventions}">
-            <p>Intervention ID: <span th:text="${intervention.idInterventionMedicale}"></span></p>
-            <p>Note Medecin: <span th:text="${intervention.noteMedecin}"></span></p>
-        </li>
-    </ul>
-</div>
+<footer>
+    Made with <span style="color: red;">&#10084;</span> by Yahya | Made with <i class="fas fa-leaf"></i> Spring
+</footer>
 
-<h2>Actes</h2>
-<div class="actes">
-    <ul>
-        <li th:each="acte : ${actes}">
-            <p>Acte ID: <span th:text="${acte.idActe}"></span></p>
-            <p>Categorie: <span th:text="${acte.categorieActe}"></span></p>
-        </li>
-    </ul>
-</div>
-
-<h2>Factures</h2>
-<div class="factures">
-    <ul>
-        <li th:each="facture : ${factures}">
-            <p>Facture ID: <span th:text="${facture.idFacture}"></span></p>
-            <p>Montant Total: <span th:text="${facture.montantTotal}"></span></p>
-            <p>Montant Payé: <span th:text="${facture.montantPaye}"></span></p>
-            <p>Montant Restant: <span th:text="${facture.montantRestant}"></span></p>
-            <p>Date Facturation: <span th:text="${facture.dateFacturation}"></span></p>
-            <p>Type de Paiement: <span th:text="${facture.typePaiment}"></span></p>
-        </li>
-    </ul>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

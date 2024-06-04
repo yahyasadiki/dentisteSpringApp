@@ -2,49 +2,111 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit profile</title>
+    <title>Edit Profile</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Adjust label alignment */
+        label {
+            font-weight: bold;
+        }
+
+        /* Adjust input field width */
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+        }
+
+        /* Adjust button spacing */
+        .btn {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>Edit profile</h1>
+<div class="container">
+    <h1>Edit Profile</h1>
 
-<form action="/editProfile" method="post">
-    <!-- Personne attributes -->
-    <label for="nom">First Name:</label><br>
-    <input type="text" id="nom" name="nom" th:value="${dentiste.nom}"><br>
-    <label for="prenom">Last Name:</label><br>
-    <input type="text" id="prenom" name="prenom" th:value="${dentiste.prenom}"><br>
-    <label for="adresse">Address:</label><br>
-    <input type="text" id="adresse" name="adresse" th:value="${dentiste.adresse}"><br>
-    <label for="telephone">Telephone:</label><br>
-    <input type="tel" id="telephone" name="telephone" th:value="${dentiste.telephone}"><br>
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" th:value="${dentiste.email}"><br>
-    <label for="cin">CIN:</label><br>
-    <input type="text" id="cin" name="cin" th:value="${dentiste.cin}"><br>
+    <form action="/editProfile" method="post">
 
-    <!-- Utilisateur attributes -->
-    <label for="nomUtilisateur">Username:</label><br>
-    <input type="text" id="nomUtilisateur" name="nomUtilisateur" th:value="${dentiste.nomUtilisateur}"><br>
-    <label for="motDePasse">Password:</label><br>
-    <input type="password" id="motDePasse" name="motDePasse" th:value="${dentiste.motDePasse}"><br>
-    <label for="dateRetourDeConge">Return from Leave Date:</label><br>
-    <input type="date" id="dateRetourDeConge" name="dateRetourDeConge" th:value="${dentiste.dateRetourDeConge}"><br>
-    <label for="salaireDeBase">Base Salary:</label><br>
-    <input type="number" id="salaireDeBase" name="salaireDeBase" step="0.01" th:value="${dentiste.salaireDeBase}"><br>
+        <!-- Person attributes -->
+        <div class="form-group">
+            <label for="nom">First Name:</label>
+            <input type="text" id="nom" name="nom" class="form-control" th:value="${dentiste.nom}">
+        </div>
 
-    <label for="specialite">Specialty:</label><br>
-    <select id="specialite" name="specialite" th:field="*{specialites}">
-        <option th:each="specialite : ${specialites}" th:value="${specialite}" th:text="${specialite}"></option>
-    </select><br>
+        <div class="form-group">
+            <label for="prenom">Last Name:</label>
+            <input type="text" id="prenom" name="prenom" class="form-control" th:value="${dentiste.prenom}">
+        </div>
 
-    <label for="statusEmploye">Employee Status:</label><br>
-    <select id="statusEmploye" name="statusEmploye" th:field="*{statusEmployes}">
-        <option th:each="status : ${statusEmployes}" th:value="${status}" th:text="${status}"></option>
-    </select><br>
+        <div class="form-group">
+            <label for="adresse">Address:</label>
+            <input type="text" id="adresse" name="adresse" class="form-control" th:value="${dentiste.adresse}">
+        </div>
 
+        <div class="form-group">
+            <label for="telephone">Telephone:</label>
+            <input type="tel" id="telephone" name="telephone" class="form-control" th:value="${dentiste.telephone}">
+        </div>
 
-    <p><input type="submit" value="Save"/> <a href="/profile">Cancel</a></p>
-</form>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${dentiste.email}">
+        </div>
 
+        <div class="form-group">
+            <label for="cin">CIN:</label>
+            <input type="text" id="cin" name="cin" class="form-control" th:value="${dentiste.cin}">
+        </div>
+
+        <!-- User attributes -->
+        <div class="form-group">
+            <label for="nomUtilisateur">Username:</label>
+            <input type="text" id="nomUtilisateur" name="nomUtilisateur" class="form-control" th:value="${dentiste.nomUtilisateur}">
+        </div>
+
+        <div class="form-group">
+            <label for="motDePasse">Password:</label>
+            <input type="password" id="motDePasse" name="motDePasse" class="form-control" th:value="${dentiste.motDePasse}">
+        </div>
+
+        <div class="form-group">
+            <label for="dateRetourDeConge">Return from Leave Date:</label>
+            <input type="date" id="dateRetourDeConge" name="dateRetourDeConge" class="form-control" th:value="${dentiste.dateRetourDeConge}">
+        </div>
+
+        <div class="form-group">
+            <label for="salaireDeBase">Base Salary:</label>
+            <input type="number" id="salaireDeBase" name="salaireDeBase" class="form-control" step="0.01" th:value="${dentiste.salaireDeBase}">
+        </div>
+
+        <div class="form-group">
+            <label for="specialite">Specialty:</label>
+            <select id="specialite" name="specialite" class="form-control" th:field="*{specialites}">
+                <option th:each="specialite : ${specialites}" th:value="${specialite}" th:text="${specialite}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="statusEmploye">Employee Status:</label>
+            <select id="statusEmploye" name="statusEmploye" class="form-control" th:field="*{statusEmployes}">
+                <option th:each="status : ${statusEmployes}" th:value="${status}" th:text="${status}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/profile" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

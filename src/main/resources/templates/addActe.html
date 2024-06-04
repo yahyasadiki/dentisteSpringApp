@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Création d'un acte</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
-<h1>Création d'un acte</h1>
+<div class="container">
+    <h1>Création d'un acte</h1>
 
-<form action="/addActe" method="post" th:object="${acte}">
-    <div>
-        <label for="libelle">Libellé:</label><br>
-        <input type="text" id="libelle" name="libelle" th:field="*{libelle}"><br>
-        <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Libellé Error</div>
-    </div>
+    <form action="/addActe" method="post" th:object="${acte}">
+        <div class="form-group">
+            <label for="libelle">Libellé:</label>
+            <input type="text" id="libelle" name="libelle" class="form-control" th:field="*{libelle}">
+            <div class="text-danger" th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Libellé Error</div>
+        </div>
 
-    <div>
-        <label for="prixDeBase">Prix de base:</label><br>
-        <input type="number" id="prixDeBase" name="prixDeBase" th:field="*{prixDeBase}" step="0.01">
-        <span>MAD</span><br>
-        <div th:if="${#fields.hasErrors('prixDeBase')}" th:errors="*{prixDeBase}">Prix de Base Error</div>
-    </div>
+        <div class="form-group">
+            <label for="prixDeBase">Prix de base:</label>
+            <div class="input-group">
+                <input type="number" id="prixDeBase" name="prixDeBase" class="form-control" th:field="*{prixDeBase}" step="0.01">
+                <div class="input-group-append">
+                    <span class="input-group-text">MAD</span>
+                </div>
+            </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('prixDeBase')}" th:errors="*{prixDeBase}">Prix de Base Error</div>
+        </div>
 
-    <div>
-        <label for="categorie">Catégorie acte:</label><br>
-        <select id="categorie" name="categorie" th:field="*{categorieActe}">
-            <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
-        </select><br>
-    </div>
+        <div class="form-group">
+            <label for="categorie">Catégorie acte:</label>
+            <select id="categorie" name="categorie" class="form-control" th:field="*{categorieActe}">
+                <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
+            </select>
+        </div>
 
-    <div>
-        <label for="interventionId">Intervention associée:</label><br>
-        <select id="interventionId" name="interventionId">
-            <option th:each="intervention : ${interventions}" th:value="${intervention.idInterventionMedicale}"
-                    th:text="${intervention.idInterventionMedicale}"></option>
-        </select><br>
-    </div>
+        <div class="form-group">
+            <label for="interventionId">Intervention associée:</label>
+            <select id="interventionId" name="interventionId" class="form-control">
+                <option th:each="intervention : ${interventions}" th:value="${intervention.idInterventionMedicale}" th:text="${intervention.idInterventionMedicale}"></option>
+            </select>
+        </div>
 
-    <div>
-        <input type="submit" value="Créer l'acte">
-    </div>
-</form>
+        <div class="form-group">
+            <input type="submit" value="Créer l'acte" class="btn btn-primary">
+            <a href="/profile" class="btn btn-secondary">Retour</a>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>

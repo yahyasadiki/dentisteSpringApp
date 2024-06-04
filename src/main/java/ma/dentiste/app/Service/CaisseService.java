@@ -17,9 +17,10 @@ public class CaisseService {
     @Autowired
     private FactureService factureService;
 
-    public Caisse calculateIncome(Long caisseId) {
-        Caisse caisse = caisseRepository.findById(caisseId).orElseThrow(() -> new RuntimeException("Caisse not found"));
+    public Caisse createNewCaisse() {
+        Caisse caisse = new Caisse();
 
+        // Calculate the daily, monthly, and annual income
         List<Facture> allFactures = factureService.getAllFactures();
 
         double dailyIncome = 0.0;
@@ -44,4 +45,10 @@ public class CaisseService {
 
         return caisseRepository.save(caisse);
     }
+
+    //getAllCaisses
+    public List<Caisse> getAllCaisses() {
+        return caisseRepository.findAll();
+    }
+
 }

@@ -3,32 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer une facture</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Créer une facture</h1>
-<form action="/addFacture" method="post" th:object="${facture}">
-    <label for="montantPaye">Montant payé</label>
-    <input type="number" id="montantPaye" name="montantPaye" th:field="*{montantPaye}"/><br>
-    <div>
-        <label for="consultations">Consultation:</label><br>
-        <select id="consultations" name="consultationId">
-            <option value="">--Choisir une consultation--</option>
-            <option th:each="consultation : ${consultations}"
-                    th:value="${consultation.idConsultation}"
-                    th:text="${consultation.idConsultation} + ' ' + ${consultation.typeConsultation}">
-            </option>
-        </select><br><br>
-    </div>
-    <div>
-        <label for="typePaiment">Type de Paiement</label>
-        <select name="typePaiment" id="typePaiment" th:field="*{typePaiment}">
-            <option value="">--Choisir un type de paiement--</option>
-            <option th:each="typePaiment : ${typePaiements}" th:value="${typePaiment}"
-                    th:text="${typePaiment}"></option>
-        </select>
-    </div>
-    <button type="submit">Créer</button>
-    <button type="reset">Annuler</button>
-</form>
+<div class="container">
+    <h1>Créer une facture</h1>
+    <form action="/addFacture" method="post" th:object="${facture}" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="montantPaye">Montant payé:</label>
+            <input type="number" id="montantPaye" name="montantPaye" class="form-control" th:field="*{montantPaye}" required>
+            <div class="invalid-feedback">Veuillez entrer un montant valide.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="consultations">Consultation:</label>
+            <select id="consultations" name="consultationId" class="form-control" required>
+                <option value="">--Choisir une consultation--</option>
+                <option th:each="consultation : ${consultations}" th:value="${consultation.idConsultation}"
+                        th:text="${consultation.idConsultation} + ' ' + ${consultation.typeConsultation}">
+                </option>
+            </select>
+            <div class="invalid-feedback">Veuillez sélectionner une consultation.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="typePaiment">Type de Paiement:</label>
+            <select name="typePaiment" id="typePaiment" class="form-control" th:field="*{typePaiment}" required>
+                <option value="">--Choisir un type de paiement--</option>
+                <option th:each="typePaiment : ${typePaiements}" th:value="${typePaiment}"
+                        th:text="${typePaiment}"></option>
+            </select>
+            <div class="invalid-feedback">Veuillez sélectionner un type de paiement.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Créer</button>
+        <a href="/profile" class="btn btn-secondary">Retour</a>
+    </form>
+</div>
+
+<!-- Include Bootstrap JS for form validation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

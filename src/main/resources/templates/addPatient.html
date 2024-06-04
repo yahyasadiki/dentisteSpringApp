@@ -3,54 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Patient</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Adjust label alignment */
+        label {
+            font-weight: bold;
+        }
+
+        /* Adjust input field width */
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select {
+            width: 100%;
+        }
+
+        /* Adjust button spacing */
+        .btn {
+            margin-right: 10px;
+        }
+
+        /* Style invalid feedback */
+        .invalid-feedback {
+            display: block;
+            color: red;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h1>Add Patient</h1>
 
-<h1>Add Patient</h1>
+    <form action="/addPatient" method="post" th:object="${patient}" class="needs-validation" novalidate>
 
-<form action="/addPatient" method="post" th:object="${patient}">
+        <div class="form-group">
+            <label for="nom">First Name:</label>
+            <input type="text" id="nom" name="nom" class="form-control" th:value="${patient.nom}" required>
+            <div class="invalid-feedback">Please enter a first name.</div>
+        </div>
 
-    <label for="nom">First Name:</label><br>
-    <input type="text" id="nom" name="nom" th:value="${patient.nom}"><br>
+        <div class="form-group">
+            <label for="prenom">Last Name:</label>
+            <input type="text" id="prenom" name="prenom" class="form-control" th:value="${patient.prenom}" required>
+            <div class="invalid-feedback">Please enter a last name.</div>
+        </div>
 
-    <label for="prenom">Last Name:</label><br>
-    <input type="text" id="prenom" name="prenom" th:value="${patient.prenom}"><br>
+        <div class="form-group">
+            <label for="dateNaissance">Date of Birth:</label>
+            <input type="date" id="dateNaissance" name="dateNaissance" class="form-control" th:value="${patient.dateNaissance}" required>
+            <div class="invalid-feedback">Please enter a valid date of birth.</div>
+        </div>
 
-    <label for="dateNaissance">Date of Birth:</label><br>
-    <input type="date" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}"><br>
+        <div class="form-group">
+            <label for="adresse">Address:</label>
+            <input type="text" id="adresse" name="adresse" class="form-control" th:value="${patient.adresse}" required>
+            <div class="invalid-feedback">Please enter an address.</div>
+        </div>
 
-    <label for="adresse">Address:</label><br>
-    <input type="text" id="adresse" name="adresse" th:value="${patient.adresse}"><br>
+        <div class="form-group">
+            <label for="telephone">Telephone:</label>
+            <input type="tel" id="telephone" name="telephone" class="form-control" th:value="${patient.telephone}" pattern="[0-9]{8}" required>
+            <div class="invalid-feedback">Please enter a valid telephone number (8 digits).</div>
+        </div>
 
-    <label for="telephone">Telephone:</label><br>
-    <input type="number" id="telephone" name="telephone" th:value="${patient.telephone}" pattern="[0-9]{8}"><br>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${patient.email}" required>
+            <div class="invalid-feedback">Please enter a valid email address.</div>
+        </div>
 
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" th:value="${patient.email}"><br>
+        <div class="form-group">
+            <label for="CIN">CIN:</label>
+            <input type="text" id="CIN" name="CIN" class="form-control" th:value="${patient.cin}" required>
+            <div class="invalid-feedback">Please enter a CIN.</div>
+        </div>
 
-    <label for="CIN">CIN:</label><br>
-    <input type="text" id="CIN" name="CIN" th:value="${patient.cin}"><br>
+        <div class="form-group">
+            <label for="mutuelle">Mutuelle:</label>
+            <select id="mutuelle" name="mutuelle" class="form-control">
+                <option th:each="mutuelle : ${mutuelles}" th:value="${mutuelle}" th:text="${mutuelle}"></option>
+            </select>
+        </div>
 
-    <label for="mutuelle">Mutuelle:</label><br>
-    <select id="mutuelle" name="mutuelle">
-        <option th:each="mutuelle : ${mutuelles}" th:value="${mutuelle}" th:text="${mutuelle}"></option>
-    </select><br>
+        <div class="form-group">
+            <label for="groupeSanguin">Blood Group:</label>
+            <select id="groupeSanguin" name="groupeSanguin" class="form-control">
+                <option th:each="groupeSanguin : ${groupesSanguins}" th:value="${groupeSanguin}" th:text="${groupeSanguin}"></option>
+            </select>
+        </div>
 
-    <label for="groupeSanguin">Blood Group:</label><br>
-    <select id="groupeSanguin" name="groupeSanguin">
-        <option th:each="groupeSanguin : ${groupesSanguins}" th:value="${groupeSanguin}"
-                th:text="${groupeSanguin}"></option>
-    </select><br>
+        <div class="form-group">
+            <label for="dossierMedicaleId">Dossier Medicale:</label>
+            <select id="dossierMedicaleId" name="dossierMedicaleId" class="form-control">
+                <option th:each="dossierMedicale : ${dossierMedicales}" th:value="${dossierMedicale.numeroDossier}" th:text="${dossierMedicale.numeroDossier}"></option>
+            </select>
+        </div>
 
-    <label for="dossierMedicaleId">Dossier Medicale:</label><br>
-    <select id="dossierMedicaleId" name="dossierMedicaleId">
-        <option th:each="dossierMedicale : ${dossierMedicales}" th:value="${dossierMedicale.numeroDossier}"
-                th:text="${dossierMedicale.numeroDossier}"></option>
-    </select><br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/profile" class="btn btn-secondary">Retour</a>
 
-    <input type="submit" value="Submit">
-
-</form>
-
+    </form>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
