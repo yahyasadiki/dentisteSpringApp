@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ma.dentiste.app.entites.enums.CategorieActe;
+import ma.dentiste.app.entites.enums.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +22,9 @@ public class Acte implements Serializable {
     private List<InterventionMedicale> interventionsMedicales;
 
     private Double prixDeBase;
+
     @Enumerated(EnumType.STRING)
     private CategorieActe categorieActe;
+
     private String libelle;
 }

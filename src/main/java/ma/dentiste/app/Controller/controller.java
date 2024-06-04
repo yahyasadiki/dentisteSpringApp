@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
-@SessionAttributes("dentiste") // This annotation is used to store 'dentiste' in session
+@SessionAttributes("dentiste")
 public class controller {
 
     @Autowired
@@ -52,13 +52,16 @@ public class controller {
 
     @PostMapping("/login")
     public String loginPost(@RequestParam String nomUtilisateur, @RequestParam String motDePasse, Model model) {
-        Dentiste dentiste = dentisteService.findByNomUtilisateurAndMotDePasse(nomUtilisateur, motDePasse);
-
-        if (dentiste != null) {
-            model.addAttribute("dentiste", dentiste); // Add dentiste to the model
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Nom d'utilisateur ou mot de passe incorrect!");
+        try {
+            Dentiste dentiste = dentisteService.findByNomUtilisateurAndMotDePasse(nomUtilisateur, motDePasse);
+            if (dentiste != null) {
+                model.addAttribute("dentiste", dentiste);
+                return "profile";
+            } else {
+                throw new Exception("Nom d'utilisateur ou mot de passe incorrect!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
@@ -75,250 +78,373 @@ public class controller {
         return "register";
     }
 
-
     @PostMapping("/register")
     public String registerPost(@ModelAttribute Dentiste dentiste, Model model) {
-        Dentiste newDentiste = dentisteService.createDentiste(dentiste);
-        if (newDentiste != null) {
-            model.addAttribute("dentiste", newDentiste);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to register!");
+        try {
+            Dentiste newDentiste = dentisteService.createDentiste(dentiste);
+            if (newDentiste != null) {
+                model.addAttribute("dentiste", newDentiste);
+                return "profile";
+            } else {
+                throw new Exception("Failed to register!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
     @GetMapping("/profile")
     public String profile(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
-        if (dentiste != null) {
-            model.addAttribute("dentiste", dentiste);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
+        try {
+            if (dentiste != null) {
+                model.addAttribute("dentiste", dentiste);
+                return "profile";
+            } else {
+                throw new Exception("Vous devez vous connecter d'abord!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
     @GetMapping("/editProfile")
     public String editProfile(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
-        if (dentiste != null) {
-            model.addAttribute("dentiste", dentiste);
-            List<Specialite> specialites = Arrays.asList(Specialite.values());
-            List<StatusEmploye> statusEmployes = Arrays.asList(StatusEmploye.values());
+        try {
+            if (dentiste != null) {
+                model.addAttribute("dentiste", dentiste);
+                List<Specialite> specialites = Arrays.asList(Specialite.values());
+                List<StatusEmploye> statusEmployes = Arrays.asList(StatusEmploye.values());
 
-            model.addAttribute("specialites", specialites);
-            model.addAttribute("statusEmployes", statusEmployes);
-            return "editProfile";
-        } else {
-            model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
+                model.addAttribute("specialites", specialites);
+                model.addAttribute("statusEmployes", statusEmployes);
+                return "editProfile";
+            } else {
+                throw new Exception("Vous devez vous connecter d'abord!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
     @PostMapping("/editProfile")
     public String editProfilePost(@ModelAttribute Dentiste dentiste, Model model) {
-        Dentiste updatedDentiste = dentisteService.updateDentiste(dentiste);
-        if (updatedDentiste != null) {
-            model.addAttribute("dentiste", updatedDentiste);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to update profile!");
+        try {
+            Dentiste updatedDentiste = dentisteService.updateDentiste(dentiste);
+            if (updatedDentiste != null) {
+                model.addAttribute("dentiste", updatedDentiste);
+                return "profile";
+            } else {
+                throw new Exception("Failed to update profile!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
     @GetMapping("/logout")
     public String logout(@ModelAttribute("dentiste") Dentiste dentiste, Model model) {
-        if (dentiste != null) {
-            model.addAttribute("dentiste", null);
-            return "login";
-        } else {
-            model.addAttribute("errorMessage", "Vous devez vous connecter d'abord!");
+        try {
+            if (dentiste != null) {
+                model.addAttribute("dentiste", null);
+                return "login";
+            } else {
+                throw new Exception("Vous devez vous connecter d'abord!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
     @GetMapping("/addPatient")
     public String addPatient(Model model) {
-        model.addAttribute("patient", new Patient());
-        List<Mutuelle> mutuelles = Arrays.asList(Mutuelle.values());
-        model.addAttribute("mutuelles", mutuelles);
-        List<GroupeSanguin> groupesSanguins = Arrays.asList(GroupeSanguin.values());
-        model.addAttribute("groupesSanguins", groupesSanguins);
-        model.addAttribute("dossierMedicales", dossierMedicalService.getDossierMedicalWithouPatient());
-        return "addPatient";
+        try {
+            model.addAttribute("patient", new Patient());
+            List<Mutuelle> mutuelles = Arrays.asList(Mutuelle.values());
+            model.addAttribute("mutuelles", mutuelles);
+            List<GroupeSanguin> groupesSanguins = Arrays.asList(GroupeSanguin.values());
+            model.addAttribute("groupesSanguins", groupesSanguins);
+            model.addAttribute("dossierMedicales", dossierMedicalService.getDossierMedicalWithouPatient());
+            return "addPatient";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/addPatient")
     public String addPatientPost(@ModelAttribute Patient patient, Model model,
                                  @RequestParam Long dossierMedicaleId) {
-        Patient newPatient = patientService.createPatient(patient);
-        patient.setDossierMedicale(dossierMedicalService.getDossierMedicalById(dossierMedicaleId));
-
-        if (newPatient != null) {
+        try {
+            Patient newPatient = patientService.createPatient(patient);
             DossierMedicale dossierMedicale = dossierMedicalService.getDossierMedicalById(dossierMedicaleId);
-            dossierMedicalService.setPatient(dossierMedicale, newPatient);
-            if (dossierMedicale != null) {
+            patient.setDossierMedicale(dossierMedicale);
+            dossierMedicale.setPatient(newPatient);
+            if (newPatient != null) {
+                dossierMedicalService.setPatient(dossierMedicale, newPatient);
+                model.addAttribute("patient", newPatient);
+                return "profile";
+            } else {
+                throw new Exception("Failed to add Patient!");
             }
-            model.addAttribute("patient", newPatient);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add Patient!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
-
     @GetMapping("/addDossierMedical")
     public String addDossierMedical(Model model) {
-        model.addAttribute("dossierMedical", new DossierMedicale());
-        ArrayList<StatusPaiment> statusPaiments = new ArrayList<>(Arrays.asList(StatusPaiment.values()));
-        model.addAttribute("statusPaiments", statusPaiments);
-        ArrayList<Dentiste> dentistes = new ArrayList<>(dentisteService.getAllDentistes());
-        model.addAttribute("dentistes", dentistes);
-        return "addDossierMedical";
+        try {
+            model.addAttribute("dossierMedical", new DossierMedicale());
+            ArrayList<StatusPaiment> statusPaiments = new ArrayList<>(Arrays.asList(StatusPaiment.values()));
+            model.addAttribute("statusPaiments", statusPaiments);
+            ArrayList<Dentiste> dentistes = new ArrayList<>(dentisteService.getAllDentistes());
+            model.addAttribute("dentistes", dentistes);
+            return "addDossierMedical";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/addDossierMedical")
     public String addDossierMedicalPost(@ModelAttribute DossierMedicale dossierMedical, Model model,
                                         @RequestParam String statusPaiment,
                                         @RequestParam String dentiste) {
-        dossierMedical.setStatusPaiment(StatusPaiment.valueOf(statusPaiment));
-        dossierMedical.setDentiste(dentisteService.getDentisteById(Long.parseLong(dentiste)));
+        try {
+            dossierMedical.setStatusPaiment(StatusPaiment.valueOf(statusPaiment));
+            dossierMedical.setDentiste(dentisteService.getDentisteById(Long.parseLong(dentiste)));
+            DossierMedicale newDossierMedical = dossierMedicalService.createDossierMedical(dossierMedical);
+            // create a new situation financiere and add it to the dossier medical
+            SituationFinanciere situationFinanciere = new SituationFinanciere();
+            situationFinanciere.setMontantGlobalPaye(0.0);
+            situationFinanciere.setMontantGlobalRestant(0.0);
+            situationFinanciere.setDossierMedicale(newDossierMedical);
+            SituationFinanciere newSituationFinanciere = SituationFinanciereService.createSituationFinanciere(situationFinanciere);
+            newDossierMedical.setSituationFinanciere(newSituationFinanciere);
 
-        DossierMedicale newDossierMedical = dossierMedicalService.createDossierMedical(dossierMedical);
-
-        if (newDossierMedical != null) {
-            model.addAttribute("dossierMedical", newDossierMedical);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add DossierMedical!");
+            if (newDossierMedical != null) {
+                model.addAttribute("dossierMedical", newDossierMedical);
+                return "profile";
+            } else {
+                throw new Exception("Failed to add DossierMedical!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
-
     @GetMapping("/addConsultation")
     public String addConsultation(Model model) {
-        model.addAttribute("consultation", new Consultation());
-        List<TypeConsultation> typeConsultations = Arrays.asList(TypeConsultation.values());
-        model.addAttribute("typeConsultations", typeConsultations);
-        List<DossierMedicale> dossierMedicales = dossierMedicalService.getAllDossierMedical();
-        model.addAttribute("dossierMedicales", dossierMedicalService.getAllDossierMedical());
-
-
-        return "addConsultation";
+        try {
+            model.addAttribute("consultation", new Consultation());
+            List<TypeConsultation> typeConsultations = Arrays.asList(TypeConsultation.values());
+            model.addAttribute("typeConsultations", typeConsultations);
+            List<DossierMedicale> dossierMedicales = dossierMedicalService.getAllDossierMedical();
+            model.addAttribute("dossierMedicales", dossierMedicales);
+            return "addConsultation";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/addConsultation")
     public String addConsultationPost(@ModelAttribute Consultation consultation, Model model,
                                       @RequestParam Long dossierMedicaleId, @RequestParam Double montantTotal) {
-        DossierMedicale dossierMedicale = dossierMedicalService.getDossierMedicalById(dossierMedicaleId);
-        consultation.setDossierMedicale(dossierMedicale);
+        try {
+            DossierMedicale dossierMedicale = dossierMedicalService.getDossierMedicalById(dossierMedicaleId);
+            consultation.setDossierMedicale(dossierMedicale);
 
-        Facture facture = new Facture();
-        facture.setMontantTotal(montantTotal);
-        facture.setConsultation(consultation);
-        consultation.setFactures(Collections.singletonList(facture));
+            SituationFinanciere situationFinanciere = dossierMedicale.getSituationFinanciere();
+            situationFinanciere.setMontantGlobalRestant(situationFinanciere.getMontantGlobalRestant() + montantTotal);
 
-        Consultation newConsultation = consultationService.createConsultation(consultation);
+            Consultation newConsultation = consultationService.createConsultation(consultation);
 
-        if (newConsultation != null) {
-            model.addAttribute("consultation", newConsultation);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add Consultation!");
+            if (newConsultation != null) {
+                model.addAttribute("consultation", newConsultation);
+                return "profile";
+            } else {
+                throw new Exception("Failed to add Consultation!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
-
     @GetMapping("/addIntervention")
     public String addIntervention(Model model) {
-        model.addAttribute("intervention", new InterventionMedicale());
-        List<Consultation> consultations = ConsultationService.getAllConsultations();
-        model.addAttribute("consultations", consultations);
-        return "addIntervention";
+        try {
+            model.addAttribute("intervention", new InterventionMedicale());
+            List<Consultation> consultations = consultationService.getAllConsultations();
+            model.addAttribute("consultations", consultations);
+            return "addIntervention";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/addIntervention")
     public String addInterventionPost(@ModelAttribute InterventionMedicale intervention, Model model,
                                       @RequestParam Long consultationId) {
-        Consultation consultation = consultationService.getConsultationById(consultationId);
-        intervention.setConsultation(consultation);
-        InterventionMedicale newIntervention = interventionMedicalService.createInterventionMedicale(intervention);
-        if (newIntervention != null) {
-            model.addAttribute("intervention", newIntervention);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add Intervention!");
+        try {
+            Consultation consultation = consultationService.getConsultationById(consultationId);
+            intervention.setConsultation(consultation);
+            InterventionMedicale newIntervention = interventionMedicalService.createInterventionMedicale(intervention);
+            if (newIntervention != null) {
+                model.addAttribute("intervention", newIntervention);
+                return "profile";
+            } else {
+                throw new Exception("Failed to add Intervention!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
-
     @GetMapping("/addActe")
     public String addActe(Model model) {
-        ArrayList<InterventionMedicale> interventions = InterventionMedicalService.getAllInterventionMedicales();
-        model.addAttribute("interventions", interventions);
-        ArrayList<CategorieActe> categories = new ArrayList<>(Arrays.asList(CategorieActe.values()));
-        model.addAttribute("categories", categories);
-        model.addAttribute("acte", new Acte());
-        return "addActe";
+        try {
+            ArrayList<InterventionMedicale> interventions = interventionMedicalService.getAllInterventionMedicales();
+            model.addAttribute("interventions", interventions);
+            ArrayList<CategorieActe> categories = new ArrayList<>(Arrays.asList(CategorieActe.values()));
+            model.addAttribute("categories", categories);
+            model.addAttribute("acte", new Acte());
+            return "addActe";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
-
 
     @PostMapping("/addActe")
     public String addActePost(@ModelAttribute Acte acte, Model model,
                               @RequestParam Long interventionId) {
-        Acte newActe = ActeService.createActe(acte);
-        InterventionMedicale intervention = InterventionMedicalService.getInterventionMedicaleById(interventionId);
-        ActeService.setInterventionMedicale(newActe, intervention);
-        interventionMedicalService.setActe(intervention, newActe);
+        try {
+            Acte newActe = acteService.createActe(acte);
+            InterventionMedicale intervention = interventionMedicalService.getInterventionMedicaleById(interventionId);
+            acteService.setInterventionMedicale(newActe, intervention);
+            interventionMedicalService.setActe(intervention, newActe);
 
-        model.addAttribute("acte", newActe);
-        return "profile";
+            model.addAttribute("acte", newActe);
+            return "profile";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @GetMapping("/addFacture")
     public String showAddFactureForm(Model model) {
-        Facture facture = new Facture();
-        List<Consultation> consultations = consultationService.getAllConsultations();
-        model.addAttribute("consultations", consultations);
-        List<TypePaiment> typePaiements = Arrays.asList(TypePaiment.values());
-        model.addAttribute("facture", facture);
-        model.addAttribute("typePaiements", typePaiements);
-        return "addFacture";
+        try {
+            Facture facture = new Facture();
+            List<Consultation> consultations = consultationService.getAllConsultations();
+            model.addAttribute("consultations", consultations);
+            List<TypePaiment> typePaiements = Arrays.asList(TypePaiment.values());
+            model.addAttribute("facture", facture);
+            model.addAttribute("typePaiements", typePaiements);
+            return "addFacture";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/addFacture")
     public String addFacturePost(@ModelAttribute Facture facture, Model model,
                                  @RequestParam Long consultationId) {
-        Consultation consultation = consultationService.getConsultationById(consultationId);
-        facture.setConsultation(consultation);
-        facture.setMontantTotal(consultation.getFactures().get(0).getMontantTotal());
-        facture.setMontantRestant(facture.getMontantTotal() - facture.getMontantPaye());
-        facture.setDateFacturation(LocalDate.now());
-        Facture newFacture = factureService.createFacture(facture);
+        try {
+            Consultation consultation = consultationService.getConsultationById(consultationId);
+            facture.setConsultation(consultation);
+            SituationFinanciere situationFinanciere = consultation.getDossierMedicale().getSituationFinanciere();
+            situationFinanciere.setMontantGlobalRestant(situationFinanciere.getMontantGlobalRestant() - facture.getMontantTotal());
+            situationFinanciere.setMontantGlobalPaye(situationFinanciere.getMontantGlobalPaye() + facture.getMontantTotal());
+            facture.setSituationFinanciere(situationFinanciere);
+            facture.setDateFacturation(LocalDate.now());
+            Facture newFacture = factureService.createFacture(facture);
 
-        if (newFacture != null) {
-            model.addAttribute("facture", newFacture);
-            return "profile";
-        } else {
-            model.addAttribute("errorMessage", "Failed to add Facture!");
+            if (newFacture != null) {
+                model.addAttribute("facture", newFacture);
+                return "profile";
+            } else {
+                throw new Exception("Failed to add Facture!");
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
     }
 
-    @GetMapping("/showAllPatients")
+    @GetMapping("/patients")
     public String showAllPatients(Model model) {
-        List<Patient> patients = PatientService.getAllPatients();
-        model.addAttribute("patients", patients);
-        return "redirect:/patients";
+        try {
+            List<Patient> patients = patientService.getAllPatients();
+            model.addAttribute("patients", patients);
+            return "patients";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
+    @PostMapping("/patients/{id}")
+    public String deletePatient(@PathVariable Long id, Model model) {
+        try {
+            patientService.deletePatient(id);
+            return "redirect:/patients";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
+    }
+
+@GetMapping("patientsDetails/{id}")
+public String showPatientDetails(@PathVariable Long id, Model model) {
+    try {
+        Patient patient = patientService.getPatientById(id);
+        model.addAttribute("patient", patient);
+
+        List<Consultation> consultations = consultationService.getConsultationsByPatient(patient);
+        model.addAttribute("consultations", consultations);
+
+        List<InterventionMedicale> allInterventions = new ArrayList<>();
+        List<Acte> allActes = new ArrayList<>();
+        List<Facture> allFactures = new ArrayList<>();
+
+        for (Consultation consultation : consultations) {
+            List<InterventionMedicale> interventions = interventionMedicalService.getInterventionsByConsultation(consultation);
+            allInterventions.addAll(interventions);
+
+            for (InterventionMedicale intervention : interventions) {
+                Acte acte = acteService.getActeByIntervention(intervention);
+                allActes.add(acte);
+            }
+
+            List<Facture> factures = factureService.getFacturesByConsultation(consultation);
+            allFactures.addAll(factures);
+        }
+
+        model.addAttribute("interventions", allInterventions);
+        model.addAttribute("actes", allActes);
+        model.addAttribute("factures", allFactures);
+
+        return "patientDetails";
+    } catch (Exception e) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "error";
+    }
 }
 
 
 
+}
 

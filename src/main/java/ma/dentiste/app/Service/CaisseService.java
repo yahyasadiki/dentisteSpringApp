@@ -1,34 +1,47 @@
 package ma.dentiste.app.Service;
-
-import ma.dentiste.app.Respository.CaisseRepository;
-import ma.dentiste.app.entites.Caisse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ma.dentiste.app.Respository.CaisseRepository;
+import ma.dentiste.app.Service.FactureService;
+import ma.dentiste.app.entites.Caisse;
+import ma.dentiste.app.entites.Facture;
 
+import java.time.LocalDate;
+import java.util.List;
 @Service
 public class CaisseService {
-    private static CaisseRepository caisseRepository;
 
-    public CaisseService(CaisseRepository caisseRepository) {
-        this.caisseRepository = caisseRepository;
-    }
+    @Autowired
+    private CaisseRepository caisseRepository;
 
-    public void createCaisse(Caisse caisse) {
-        caisseRepository.save(caisse);
-    }
+    @Autowired
+    private FactureService factureService;
 
-    public static Caisse getCaisseById(Long id) {
-        return caisseRepository.findById(id).get();
-    }
+    public Caisse calculateIncome(Long caisseId) {
+        Caisse caisse = caisseRepository.findById(caisseId).orElseThrow(() -> new RuntimeException("Caisse not found"));
 
-    public void updateCaisse(Caisse caisse) {
-        caisseRepository.save(caisse);
-    }
+        List<Facture> allFactures = factureService.getAllFactures();
 
-    public void deleteCaisse(Long id) {
-        caisseRepository.deleteById(id);
-    }
+        double dailyIncome = 0.0;
+        double monthlyIncome = 0.0;
+        double annualIncome = 0.0;
 
-    public Iterable<Caisse> getAllCaisse() {
-        return caisseRepository.findAll();
+        for (Facture facture : allFactures) {
+            if (facture.getDateFacturation().isEqual(LocalDate.now())) {
+                dailyIncome += facture.getMontantTotal();
+            }
+            if (facture.getDateFacturation().getMonth() == LocalDate.now().getMonth()) {
+                monthlyIncome += facture.getMontantTotal();
+            }
+            if (facture.getDateFacturation().getYear() == LocalDate.now().getYear()) {
+                annualIncome += facture.getMontantTotal();
+            }
+        }
+
+        caisse.setRecetteDuJour(dailyIncome);
+        caisse.setRecetteDuMois(monthlyIncome);
+        caisse.setRecetteAnnuelle(annualIncome);
+
+        return caisseRepository.save(caisse);
     }
 }

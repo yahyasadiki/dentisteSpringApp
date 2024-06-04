@@ -3,42 +3,46 @@ package ma.dentiste.app.Service;
 import ma.dentiste.app.Respository.PatientRepository;
 import ma.dentiste.app.entites.DossierMedicale;
 import ma.dentiste.app.entites.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PatientService {
-    private static PatientRepository PatientRepository;
+    private final PatientRepository patientRepository;
 
-    public PatientService(PatientRepository PatientRepository) {
-        this.PatientRepository = PatientRepository;
+    @Autowired
+    public PatientService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
     }
 
-    public static Patient createPatient(Patient Patient) {
-        return PatientRepository.save(Patient);
+    public Patient createPatient(Patient patient) {
+        return patientRepository.save(patient);
     }
 
-    public static Patient getPatientById(Long id) {
-        return PatientRepository.findById(id).get();
+    public Patient getPatientById(Long id) {
+        return patientRepository.findById(id).orElse(null);
     }
 
-    public static Patient updatePatient(Patient Patient) {
-        return PatientRepository.save(Patient);
+    public Patient updatePatient(Patient patient) {
+        return patientRepository.save(patient);
     }
 
-    public static void deletePatient(Long id) {
-        PatientRepository.deleteById(id);
+    public void deletePatient(Long id) {
+        patientRepository.deleteById(id);
     }
 
-    public static List<Patient> getAllPatients() {
-        return PatientRepository.findAll();
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
     }
 
-    public static Patient setDossierMedicale(Patient patient, DossierMedicale dossierMedicale) {
+    public Patient setDossierMedicale(Patient patient, DossierMedicale dossierMedicale) {
         patient.setDossierMedicale(dossierMedicale);
-        return PatientRepository.save(patient);
+        return patientRepository.save(patient);
     }
 
-
+    public long getAge(Patient patient) {
+        return patient.getDateNaissance().getYear();
+    }
 }

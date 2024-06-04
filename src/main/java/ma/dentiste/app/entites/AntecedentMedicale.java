@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ma.dentiste.app.entites.enums.CategorieAntecedentsMedicaux;
+import ma.dentiste.app.entites.enums.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,11 +15,13 @@ import java.util.List;
 @Entity
 public class AntecedentMedicale implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAntecedent;
     private String libelle;
-    @ManyToMany
-    private List<Patient> patientAvectAntecedent;
+
+    @ManyToMany(mappedBy = "antecedentMedicales")
+    private List<Patient> patientsWithAntecedent;
+
     @Enumerated(EnumType.STRING)
     private CategorieAntecedentsMedicaux categorieAntecedentsMedicaux;
 }

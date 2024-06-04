@@ -1,8 +1,12 @@
 package ma.dentiste.app.Service;
 
 import ma.dentiste.app.Respository.FactureRepository;
+import ma.dentiste.app.entites.Consultation;
 import ma.dentiste.app.entites.Facture;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class FactureService {
@@ -29,7 +33,11 @@ public class FactureService {
         return factureRepository.findById(id).get();
     }
 
-    public static Iterable<Facture> getAllFactures() {
+    public static List<Facture> getAllFactures() {
         return factureRepository.findAll();
+    }
+
+    public List<Facture> getFacturesByConsultation(Consultation consultation) {
+        return (List<Facture>) factureRepository.findByConsultation(consultation);
     }
 }

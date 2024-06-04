@@ -16,13 +16,19 @@ import java.util.List;
 @Entity
 public class Patient extends Personne {
     private LocalDate dateNaissance;
+
     @Enumerated(EnumType.STRING)
     private Mutuelle mutuelle;
+
     @Enumerated(EnumType.STRING)
     private GroupeSanguin groupeSanguin;
+
     @ManyToMany
     private List<AntecedentMedicale> antecedentMedicales;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "patient", orphanRemoval = true)
     private DossierMedicale dossierMedicale;
+
     private String profession;
 }
+

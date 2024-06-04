@@ -3,6 +3,7 @@ package ma.dentiste.app.Service;
 import ma.dentiste.app.Respository.ConsultationRepository;
 import ma.dentiste.app.entites.Consultation;
 import ma.dentiste.app.entites.DossierMedicale;
+import ma.dentiste.app.entites.Patient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,4 +44,19 @@ public class ConsultationService {
         consultationRepository.save(consultation);
     }
 
+
+
+    public static List<Consultation> getConsultationsByDossierMedicale(DossierMedicale dossierMedicale) {
+        return consultationRepository.findByDossierMedicale(dossierMedicale);
+    }
+
+    public List<Consultation> getConsultationsByPatient(Patient patient) {
+        List<Consultation> consultations = new ArrayList<>();
+        for (Consultation consultation : consultationRepository.findAll()) {
+            if (consultation.getDossierMedicale().getPatient().equals(patient)) {
+                consultations.add(consultation);
+            }
+        }
+        return consultations;
+    }
 }

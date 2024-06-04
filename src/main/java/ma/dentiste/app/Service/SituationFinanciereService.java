@@ -13,7 +13,7 @@ public class SituationFinanciereService {
         this.situationFinanciereRepository = situationFinanciereRepository;
     }
 
-    public static SituationFinanciere saveSituationFinanciere(SituationFinanciere situationFinanciere) {
+    public static SituationFinanciere createSituationFinanciere(SituationFinanciere situationFinanciere) {
         return situationFinanciereRepository.save(situationFinanciere);
     }
 

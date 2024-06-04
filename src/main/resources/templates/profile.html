@@ -18,18 +18,18 @@
 
 </div>
 
-<div>
-    <a href="/editProfile">Edit Profile</a><br>
-    <a href="/logout">Logout</a><br>
-    <a href="/patients">Patients</a><br>
-    <a href="/CRUDdentiste">Details</a><br>
-    <a href="/addDossierMedical">Ajouter un dossier medical</a><br>
-    <a href="/addPatient">Ajouter un patient</a><br>
-    <a href="/addConsultation">Ajouter une consultation</a><br>
-    <a href="/addIntervention">Ajouter une intervention</a><br>
-    <a href="/addActe">Ajouter un acte</a><br>
-    <a href="/addFacture">Ajouter une facture</a><br>
-</div>
+    <nav>
+        <ul>
+            <li><a href="/editProfile">Edit Profile</a></li>
+            <li><a th:href="@{/addDossierMedical}">Add Dossier Medical</a></li>
+            <li><a th:href="@{/addPatient}">Add Patient</a></li>
+            <li><a th:href="@{/patients}">View All Patients</a></li>
+            <li><a th:href="@{/addConsultation}">Add Consultation</a></li>
+            <li><a th:href="@{/addIntervention}">Add Intervention</a></li>
+            <li><a th:href="@{/addFacture}">Add Facture</a></li>
+            <li><a th:href="@{/addActe}">Add Acte</a></li>
+        </ul>
+    </nav>
 
 
 </body>

@@ -47,4 +47,7 @@ public class ActeService {
         return acteRepository.save(acte);
     }
 
+    public Acte getActeByIntervention(InterventionMedicale interventionMedicale) {
+        return acteRepository.findByInterventionsMedicales(interventionMedicale);
+    }
 }

@@ -56,4 +56,10 @@ public class InterventionMedicalService {
         interventionMedicale.setActe(acte);
         return interventionMedicaleRepository.save(interventionMedicale);
     }
+
+    public List<InterventionMedicale> getInterventionsByConsultation(Consultation consultation) {
+        return interventionMedicaleRepository.findByConsultation(consultation);
+
+    }
+
 }

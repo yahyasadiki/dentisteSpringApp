@@ -7,41 +7,53 @@
 <body>
 
 <h1>Details Patient</h1>
+<h2>Nombre de patients : <span th:text="${patients.size()}"></span></h2>
 
 <div class="details-table">
     <table border="1">
         <tr>
             <th>Id</th>
             <th>Nom</th>
-            <th>Prenom</th>
-            <th>Age</th>
-            <th>Telephone</th>
+            <th>Prénom</th>
+            <th>Téléphone</th>
             <th>Adresse</th>
-           <th>email</th>
-         <th>CIN</th>
-          <th>Mutuelle</th>
-        <th>GroupeSanguin</th>
-        <th>Antecedents medicale</th>
-        <th>Profession</th>
+            <th>Email</th>
+            <th>CIN</th>
+            <th>Mutuelle</th>
+            <th>Groupe Sanguin</th>
+            <th>Antécédents Médicaux</th>
+            <th>Profession</th>
+            <th>Actions</th>
         </tr>
 
         <tr th:each="patient : ${patients}">
-            <td th:text="${patient.id}"></td>
-              <td th:text="${patient.nom}"></td>
+            <td th:text="${patient.id_personne}"></td>
+            <td th:text="${patient.nom}"></td>
             <td th:text="${patient.prenom}"></td>
-            <td th:text="${patient.age}"></td>
             <td th:text="${patient.telephone}"></td>
             <td th:text="${patient.adresse}"></td>
             <td th:text="${patient.email}"></td>
             <td th:text="${patient.cin}"></td>
             <td th:text="${patient.mutuelle}"></td>
             <td th:text="${patient.groupeSanguin}"></td>
-            <td th:text="${patient.antecedentsMedicale}"></td>
+            <td th:text="${patient.antecedentMedicales}"></td>
             <td th:text="${patient.profession}"></td>
+            <td>
+                <form th:action="@{'/patients/' + ${patient.id_personne}}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit">Delete</button>
+                </form>
+
+                <form th:action="@{'/patientsDetails/' + ${patient.id_personne}}" method="get">
+                    <button type="submit">Details</button>
+                </form>
+            </td>
         </tr>
     </table>
 
-
+    <form th:action="@{'/profile'}" method="get">
+        <button type="submit">Retour</button>
+    </form>
 </div>
 
 </body>

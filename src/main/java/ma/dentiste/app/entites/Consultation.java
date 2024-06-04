@@ -16,16 +16,20 @@ import java.util.List;
 @Entity
 public class Consultation implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idConsultation;
     private LocalDate dateConsultation;
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
     private List<InterventionMedicale> interventionsMedicales;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne
     private DossierMedicale dossierMedicale;
+
     @Enumerated(EnumType.STRING)
     private TypeConsultation typeConsultation;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Facture> factures;
 
+    @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
+    private List<Facture> factures;
 }
+

@@ -20,7 +20,7 @@ public class DossierMedicale implements Serializable {
     private LocalDate dateCreation;
     @OneToOne
     private Patient patient;
-    @OneToOne
+    @OneToOne (cascade=CascadeType.ALL)
     private SituationFinanciere situationFinanciere;
     @ManyToOne
     private Dentiste dentiste;

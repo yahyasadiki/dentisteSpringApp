@@ -23,10 +23,13 @@
     <input type="text" id="adresse" name="adresse" th:value="${patient.adresse}"><br>
 
     <label for="telephone">Telephone:</label><br>
-    <input type="tel" id="telephone" name="telephone" th:value="${patient.telephone}"><br>
+    <input type="number" id="telephone" name="telephone" th:value="${patient.telephone}" pattern="[0-9]{8}"><br>
 
     <label for="email">Email:</label><br>
     <input type="email" id="email" name="email" th:value="${patient.email}"><br>
+
+    <label for="CIN">CIN:</label><br>
+    <input type="text" id="CIN" name="CIN" th:value="${patient.cin}"><br>
 
     <label for="mutuelle">Mutuelle:</label><br>
     <select id="mutuelle" name="mutuelle">

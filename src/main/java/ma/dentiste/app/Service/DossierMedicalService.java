@@ -39,6 +39,17 @@ public class DossierMedicalService {
         dossierMedicaleRepository.delete(dossierMedicale);
     }
 
+    //findByPatient
+    public static DossierMedicale getDossierMedicalByPatient(Patient patient) {
+        for (DossierMedicale dossierMedicale : dossierMedicaleRepository.findAll()) {
+            if (dossierMedicale.getPatient().equals(patient)) {
+                return dossierMedicale;
+            }
+        }
+        return null;
+    }
+
+
     public static DossierMedicale getDossierMedicalById(Long id) {
         return dossierMedicaleRepository.findById(id).get();
     }

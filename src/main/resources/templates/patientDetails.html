@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Details</title>
+</head>
+<body>
+
+<h1>Patient Details for <span th:text="${patient.nom}"></span></h1>
+
+<h2>Consultations</h2>
+<div class="consultations">
+    <ul>
+        <li th:each="consultation : ${consultations}">
+            <p>Consultation ID: <span th:text="${consultation.idConsultation}"></span></p>
+            <p>Date: <span th:text="${consultation.dateConsultation}"></span></p>
+            <p>Type of Consultation: <span th:text="${consultation.typeConsultation}"></span></p>
+        </li>
+    </ul>
+</div>
+
+<h2>Interventions</h2>
+<div class="interventions">
+    <ul>
+        <li th:each="intervention : ${interventions}">
+            <p>Intervention ID: <span th:text="${intervention.idInterventionMedicale}"></span></p>
+            <p>Note Medecin: <span th:text="${intervention.noteMedecin}"></span></p>
+        </li>
+    </ul>
+</div>
+
+<h2>Actes</h2>
+<div class="actes">
+    <ul>
+        <li th:each="acte : ${actes}">
+            <p>Acte ID: <span th:text="${acte.idActe}"></span></p>
+            <p>Categorie: <span th:text="${acte.categorieActe}"></span></p>
+        </li>
+    </ul>
+</div>
+
+<h2>Factures</h2>
+<div class="factures">
+    <ul>
+        <li th:each="facture : ${factures}">
+            <p>Facture ID: <span th:text="${facture.idFacture}"></span></p>
+            <p>Montant Total: <span th:text="${facture.montantTotal}"></span></p>
+            <p>Montant Payé: <span th:text="${facture.montantPaye}"></span></p>
+            <p>Montant Restant: <span th:text="${facture.montantRestant}"></span></p>
+            <p>Date Facturation: <span th:text="${facture.dateFacturation}"></span></p>
+            <p>Type de Paiement: <span th:text="${facture.typePaiment}"></span></p>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
